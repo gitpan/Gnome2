@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconTheme.xs,v 1.14 2003/11/14 18:51:31 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconTheme.xs,v 1.15 2003/11/30 14:19:32 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -147,7 +147,7 @@ gnome_icon_theme_set_search_path (theme, first_path, ...)
 	for (i = 1; i < items; i++)
 		path[i - 1] = SvPV_nolen (ST (i));
 
-	gnome_icon_theme_set_search_path (theme, path, i - 1);		      
+	gnome_icon_theme_set_search_path (theme, path, i - 1);
 
 ##  void gnome_icon_theme_get_search_path (GnomeIconTheme *theme, char **path[], int *n_elements) 
 void

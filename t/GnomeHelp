@@ -2,22 +2,17 @@
 use strict;
 use Gnome2;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeHelp,v 1.1 2003/09/26 14:33:17 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeHelp,v 1.3 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
-  skip("You don't appear to have the GNOME session manager running.", 0)
-    unless (-d "$ENV{ HOME }/.gconfd" &&
-            -d "$ENV{ HOME }/.gnome2");
-
-  my $application = Gnome2::Program -> init("zenity", "0.1", "libgnomeui", app_datadir => "/usr/share");
-
-  skip("Couldn't connect to the session manager.", 0)
-    unless (Gnome2::Client -> new() -> connected());
+  our $application;
+  do "t/TestBoilerplate";
 
   #############################################################################
 
   Gnome2::Help -> display("zenity.xml");
   Gnome2::Help -> display_desktop($application, "panel", "launchers.html");
+  Gnome2::Help -> display_desktop_with_env($application, "panel", "launchers.html", "", [map { "$_=" . $ENV{ $_ } } (keys(%ENV))]);
 }

@@ -7,19 +7,13 @@ use Test::More tests => TESTS;
 
 Gnome2::VFS -> init();
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconTheme.t,v 1.12 2003/11/24 23:14:55 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconTheme.t,v 1.13 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
-  skip("You don't appear to have the GNOME session manager running.", TESTS)
-    unless (-d "$ENV{ HOME }/.gconfd" &&
-            -d "$ENV{ HOME }/.gnome2");
-
-  my $application = Gnome2::Program -> init("Test", "0.1");
-
-  skip("Couldn't connect to the session manager.", TESTS)
-    unless (Gnome2::Client -> new() -> connected());
+  our $application;
+  do "t/TestBoilerplate";
 
   skip("GnomeIconTheme is new in 2.0.6", TESTS)
     unless (Gnome2 -> check_version(2, 0, 6));

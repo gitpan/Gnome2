@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconLookup.xs,v 1.6 2003/11/24 23:14:55 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconLookup.xs,v 1.7 2003/11/30 14:19:32 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -45,13 +45,13 @@ gnome_icon_lookup (icon_theme, thumbnail_factory, file_uri, custom_icon, file_in
 	 GnomeIconLookupFlags flags
     PREINIT:
 	GnomeIconLookupResultFlags result;
-	char *icon;
+	char *icon = NULL;
 	const char *real_custom_icon = NULL;
     PPCODE:
 	if (SvPOK (custom_icon))
 		real_custom_icon = (const char *) SvPV_nolen (custom_icon);
 
-	gnome_icon_lookup (icon_theme, thumbnail_factory, file_uri, real_custom_icon, file_info, mime_type, flags, &result);
+	icon = gnome_icon_lookup (icon_theme, thumbnail_factory, file_uri, real_custom_icon, file_info, mime_type, flags, &result);
 
 	if (icon == NULL)
 		XSRETURN_UNDEF;

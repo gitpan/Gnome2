@@ -2,22 +2,16 @@
 use strict;
 use Gnome2;
 
-use constant TESTS => 16;
+use constant TESTS => 17;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeDruid.t,v 1.5 2003/11/02 19:46:49 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeDruid.t,v 1.7 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
-  skip("You don't appear to have the GNOME session manager running.", TESTS)
-    unless (-d "$ENV{ HOME }/.gconfd" &&
-            -d "$ENV{ HOME }/.gnome2");
-
-  my $application = Gnome2::Program -> init("Test", "0.1");
-
-  skip("Couldn't connect to the session manager.", TESTS)
-    unless (Gnome2::Client -> new() -> connected());
+  our $application;
+  do "t/TestBoilerplate";
 
   #############################################################################
 
@@ -75,6 +69,7 @@ SKIP: {
 
   my $middle = Gnome2::DruidPageStandard -> new_with_vals("Blub");
   isa_ok($middle, "Gnome2::DruidPageStandard");
+  isa_ok($middle -> vbox(), "Gtk2::VBox");
 
   $middle = Gnome2::DruidPageStandard -> new();
   isa_ok($middle, "Gnome2::DruidPageStandard");

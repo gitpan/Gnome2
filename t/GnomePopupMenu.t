@@ -5,19 +5,13 @@ use Gnome2;
 use constant TESTS => 6;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePopupMenu.t,v 1.5 2003/09/26 23:40:14 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePopupMenu.t,v 1.7 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
-  skip("You don't appear to have the GNOME session manager running.", TESTS)
-    unless (-d "$ENV{ HOME }/.gconfd" &&
-            -d "$ENV{ HOME }/.gnome2");
-
-  my $application = Gnome2::Program -> init("Test", "0.1");
-
-  skip("Couldn't connect to the session manager.", TESTS)
-    unless (Gnome2::Client -> new() -> connected());
+  our $application;
+  do "t/TestBoilerplate";
 
   #############################################################################
 
@@ -37,7 +31,8 @@ SKIP: {
             },
             {
               type => "item",
-              label => "B"
+              label => "B",
+              callback => sub { warn @_; }
             }
           ]
         }
@@ -71,7 +66,7 @@ SKIP: {
   $window -> add($button);
 
   $popup -> attach($button);
-  $popup -> attach($button, undef);
+  $popup -> attach($button, "blub");
 
   if (join("", Gtk2 -> get_version_info()) >= 220) {
     my $event = Gtk2::Gdk::Event -> new("button_press");
@@ -83,7 +78,7 @@ SKIP: {
       },
       undef,
       $event,
-      undef,
+      "bla",
       $button
     );
   }
@@ -96,10 +91,10 @@ SKIP: {
   #   },
   #   undef,
   #   $event,
-  #   undef,
+  #   "bla",
   #   $button
   # );
 
-  $button -> add_popup_items($uiinfo);
-  $button -> add_popup_items($uiinfo, undef);
+  $window -> add_popup_items($uiinfo);
+  $window -> add_popup_items($uiinfo, "blab");
 }

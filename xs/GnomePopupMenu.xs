@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomePopupMenu.xs,v 1.5 2003/11/21 08:09:23 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomePopupMenu.xs,v 1.7 2003/12/14 04:42:37 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -42,6 +42,8 @@ gnome_popup_menu_new (class, uiinfo, accelgroup=NULL)
 		                                               accelgroup);
 	else
 		RETVAL = gnome_popup_menu_new (uiinfo);
+
+	gnome2perl_refill_infos_popup (ST (1), uiinfo);
     OUTPUT:
 	RETVAL
 
@@ -53,24 +55,12 @@ MODULE = Gnome2::PopupMenu	PACKAGE = Gtk2::Menu	PREFIX = gnome_popup_menu_
 ## same as gtk_menu_get_accel_group
 ##  GtkAccelGroup *gnome_popup_menu_get_accel_group(GtkMenu *menu) 
 
-## FIXME -- this user_data is to be attached to the menu in a way that it will
-##          be passed to the callback function when it gets called.  how are
-##          we to get this stuff to go through the type mechanism the way we
-##          expect?:  reimplement in perl?:  (or maybe even in xs...)
 ##  void gnome_popup_menu_attach (GtkWidget *popup, GtkWidget *widget, gpointer user_data) 
 void
 gnome_popup_menu_attach (popup, widget, user_data=NULL)
 	GtkWidget *popup
 	GtkWidget *widget
 	SV * user_data
-    CODE:
-	if (SvTRUE (user_data))
-		warn ("FIXME you passed something other than undef for "
-		      "user_data to gnome_popup_menu_attach, but i don't "
-		      "know how to get that through properly.  if you can't "
-		      "live without this functionality, email somebody on "
-		      "the authors list.  ignoring user_data");
-	gnome_popup_menu_attach (popup, widget, NULL);
 
 ####  void gnome_popup_menu_do_popup (GtkWidget *popup, GtkMenuPositionFunc pos_func, gpointer pos_data, GdkEventButton *event, gpointer user_data, GtkWidget *for_widget) 
 void
@@ -82,12 +72,6 @@ gnome_popup_menu_do_popup (popup, pos_func, pos_data, event, user_data, for_widg
 	SV * user_data
 	GtkWidget * for_widget
     CODE:
-	if (SvTRUE (user_data))
-		warn ("FIXME you passed something other than undef for "
-		      "user_data to gnome_popup_menu_do_popup, but i don't "
-		      "know how to get that through properly.  if you can't "
-		      "live without this functionality, email somebody on "
-		      "the authors list.  ignoring user_data");
 	if (SvTRUE (pos_func)) {
 		GPerlCallback * callback;
 		/* we don't need to worry about the callback arg types since
@@ -121,12 +105,6 @@ gnome_popup_menu_do_popup_modal (popup, pos_func, pos_data, event, user_data, fo
 	SV * user_data
 	GtkWidget * for_widget
     CODE:
-	if (SvTRUE (user_data))
-		warn ("FIXME you passed something other than undef for "
-		      "user_data to gnome_popup_menu_do_popup_modal, but i "
-		      "don't know how to get that through properly.  if you "
-		      "can't live without this functionality, email somebody "
-		      "on the authors list.  ignoring user_data");
 	if (SvTRUE (pos_func)) {
 		GPerlCallback * callback;
 		/* we don't need to worry about the callback arg types since
@@ -151,6 +129,9 @@ void
 gnome_popup_menu_append (popup, uiinfo)
 	GtkWidget *popup
 	GnomeUIInfo *uiinfo
+    CODE:
+	gnome_popup_menu_append (popup, uiinfo);
+	gnome2perl_refill_infos_popup (ST (1), uiinfo);
 
 MODULE = Gnome2::PopupMenu	PACKAGE = Gtk2::Widget	PREFIX = gnome_gtk_widget_
 
@@ -164,10 +145,5 @@ gnome_gtk_widget_add_popup_items (widget, uiinfo, user_data=NULL)
 	GnomeUIInfo *uiinfo
 	SV * user_data
     CODE:
-	if (SvTRUE (user_data))
-		warn ("FIXME you passed something other than undef for "
-		      "user_data to gnome_popup_menu_popup_items, but i "
-		      "don't know how to get that through properly.  if you "
-		      "can't live without this functionality, email somebody "
-		      "on the authors list.  ignoring user_data");
-	gnome_gtk_widget_add_popup_items (widget, uiinfo, NULL);
+	gnome_gtk_widget_add_popup_items (widget, uiinfo, user_data);
+	gnome2perl_refill_infos_popup (ST (1), uiinfo);

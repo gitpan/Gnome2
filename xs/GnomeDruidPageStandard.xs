@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeDruidPageStandard.xs,v 1.6 2003/11/07 18:46:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeDruidPageStandard.xs,v 1.8 2003/12/12 03:19:02 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -32,8 +32,8 @@ gnome_druid_page_standard_new (class)
 GtkWidget *
 gnome_druid_page_standard_new_with_vals (class, title, logo=NULL, top_watermark=NULL)
 	const gchar *title
-	GdkPixbuf *logo
-	GdkPixbuf *top_watermark
+	GdkPixbuf_ornull *logo
+	GdkPixbuf_ornull *top_watermark
     C_ARGS:
 	title, logo, top_watermark
 
@@ -87,3 +87,12 @@ gnome_druid_page_standard_append_item (druid_page_standard, question, item, addi
 	GtkWidget *item
 	const gchar *additional_info
 
+# Since the vbox member isn't available as an object property, we provide a
+# separate accessor.
+GtkWidget *
+vbox (druid_page_standard)
+	GnomeDruidPageStandard * druid_page_standard
+    CODE:
+	RETVAL = druid_page_standard->vbox;
+    OUTPUT:
+	RETVAL

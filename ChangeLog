@@ -1,3 +1,172 @@
+2003/12/15 01:12 (+0100) kaffeetisch
+
+	A t/TestBoilerplate
+	* t/*: Put some boilerplate code into an external file.  Skip most
+	tests if Gtk2->init_check fails.
+
+	* README: Reformat slightly.
+
+	* Gnome2.pm
+	* META.yml: Bump version to 0.90.
+
+2003/12/14 20:48 (+0100) kaffeetisch
+
+	* xs/GnomeAppHelper.xs: In the custom marshaller for GnomePopupMenu
+	callbacks, don't use GPERL_CALLBACK_MARSHAL_INIT on callback because it
+	would try to access callback->priv, which doesn't exist since callback
+	is a plain SV.
+
+2003/12/14 05:37 (+0100) kaffeetisch
+
+	* xs/GnomeAppHelper.xs
+	* xs/GnomePopupMenu.xs: Use custom marshalling for all callbacks
+	specified in GnomeUIInfo's used from GnomePopupMenu.  In addition
+	to making callbacks work, this even solves the user data problem
+	in GnomePopupMenu.  Many thanks to muppet for this great idea.
+
+	* t/GnomePopupMenu.t: Add some user data and callback bits to test
+	our new toys.
+
+2003/12/13 23:41 (+0100) kaffeetisch
+
+	* t/GnomeConfig.t
+	* xs/GnomeConfig.xs: Implement and test iterators.
+
+2003/12/13 21:35 (+0100) kaffeetisch
+
+	* t/GnomeAppHelper.t: Change the callback tests so that it's easy
+	to know if they were actually called.  Make the install_menu_hints
+	tests work.
+
+	* gnome2perl.h
+	* xs/GnomeAppHelper.xs: List all helper functions here.  Prefix
+	them with "gnome2perl_".
+
+	* xs/GnomeAppHelper.xs: Store and restore the "widget" member of
+	GnomeUIInfo's if it exists.  Use GNOME2PERL_WIDGET_ARRAY_INDEX
+	instead of the last used index + 1 for the widget's array index.
+	Allow GNOME_APP_UI_ITEM_CONFIGURABLE to have callbacks.  If there
+	is a callback, arrange for it to be invisible to the C backend --
+	otherwise the SV would be stored and later used as if it were a
+	function pointer, thus causing a segfault.  Use a global
+	GnomeUIBuilderData instead of a separate one for every function.
+
+	* xs/GnomeAppHelper.xs
+	* xs/GnomePopupMenu.xs: Refill the GnomeUIInfo's used here so that
+	we can warn about callbacks not working currently.
+
+2003/12/12 23:26 (+0100) kaffeetisch
+
+	* TODO: Removed reference to gnome-ui-init.  It's bound.
+
+	* README: Mention Gnome2::VFS as a dependency.  Remove license
+	boilerplate.
+
+2003/12/12 03:35 (+0100) kaffeetisch
+
+	* xs/GnomeIconList.xs: Cast the return value of
+	gnome_icon_list_get_icon_pixbuf_item to silence the compiler.
+
+	* t/GnomeConfig.t
+	* xs/GnomeConfig.xs: Implement and test vector setters and
+	getters.
+
+	* t/GnomeDruid.t
+	* xs/GnomeDruidPageStandard.xs: Add and test an accessor for the
+	vbox member.  (Thanks to Gustavo Noronha Silva for discovering it
+	and to muppet for providing a patch.)
+
+2003/12/12 00:38 (+0100) kaffeetisch
+
+	* xs/GnomeDruidPageEdge.xs
+	* xs/GnomeDruidPageStandard.xs: Use GdkPixbuf_ornull for the logo
+	and watermark arguments in the new_with_vals constructors so that
+	you can actually omit and/or pass undef for them.  Makes
+	examples/druid.pl work again.
+
+2003/12/10 22:08 (+0100) kaffeetisch
+
+	R t/GnomeClientReal
+	A examples/session-management.pl
+	* MANIFEST: Completely revamp the "real world" GnomeClient test
+	case and move it to the examples directory.
+
+	* xs/GnomeClient.xs: Remove a FIXME comment.
+
+	* TODO: Update to reflect presence: GnomeClient, GnomeIconLookup
+	and libvte are bound and the GNOME stock icons work.
+
+2003/12/10 02:02 (+0100) kaffeetisch
+
+	A t/GnomeConfig.t
+	A xs/GnomeConfig.xs
+	* MANIFEST: Implement and test GnomeConfig.
+
+2003/12/10 00:54 (+0100) kaffeetisch
+
+	A xs/GnomeWindowIcon.xs
+	* t/Gnome.t
+	* MANIFEST: Implement and test GnomeWindowIcon.
+
+	* t/GnomeIconSelection.t: Add /usr/share/pixmaps to the search
+	path as recent libgnomeui's don't seem to do it anymore.
+
+2003/12/09 15:41 (-0500) muppetman
+
+	* Makefile.PL: a little bit churn on the pkg-config names, so we can
+	get info on and create version guard macros for libgnome and whatever
+	else.
+
+	* xs/GnomeHelp.xs, xs/GnomeURL.xs: the _with_env functions didn't
+	exist until libgnome 2.2.1; use version guards to avoid missing
+	symbols.
+
+2003/12/04 19:02 (+0100) kaffeetisch
+
+	* gnome2perl.h
+	* t/GnomeHelp
+	* t/GnomeURL
+	* xs/GnomeHelp.xs
+	* xs/GnomeURL.xs: Implement and test
+	Gnome2::Help::display_desktop_with_env and
+	Gnome2::URL::show_with_env.
+
+2003/12/02 20:40 (+0100) kaffeetisch
+
+	* gnome.typemap: Use T_GPERL_GENERIC_WRAPPER for GnomeUIInfo's.
+
+	* gnome.typemap
+	* t/GnomeIconList.t
+	* xs/GnomeIconList.xs: Create and register a custom GFlags type so
+	we can use the cool flags magician in Gnome2::IconList::new.
+
+	* xs/GnomeIconTextItem.xs
+	* xs/GnomePasswordDialog.xs: Add license boilerplate.
+
+	* xs/GnomeHelp.xs
+	* xs/GnomeURL.xs: Add FIXME comments.
+
+2003/11/30 14:48 (+0100) kaffeetisch
+
+	A xs/GnomeIconTextItem.xs
+	* t/GnomeIconList.t
+	* MANIFEST: Initial implementation and test for GnomeIconTextItem.
+
+	* xs/GnomeIconLookup.xs: Fix critical bug in
+	Gnome2::IconTheme::lookup that caused a segfault.
+
+	* xs/GnomeIconTheme.xs: Remove needless spaces at the end of a
+	line.
+
+2003/11/29 17:01 (+0100) kaffeetisch
+
+	* gnome2perl.h: Include bonobo/bonobo-dock.h and
+	bonobo/bonobo-dock-item.h.
+
+2003/11/29 09:15 (-0500) muppetman
+
+	* xs/GnomeAppHelper.xs: remove unused variables.
+
 2003/11/28 22:19 (+0100) kaffeetisch
 
 	* Gnome2.pm

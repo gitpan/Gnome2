@@ -5,19 +5,13 @@ use Gnome2;
 use constant TESTS => 3;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeEntry.t,v 1.6 2003/11/01 12:23:21 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeEntry.t,v 1.7 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
-  skip("You don't appear to have the GNOME session manager running.", TESTS)
-    unless (-d "$ENV{ HOME }/.gconfd" &&
-            -d "$ENV{ HOME }/.gnome2");
-
-  my $application = Gnome2::Program -> init("Test", "0.1");
-
-  skip("Couldn't connect to the session manager.", TESTS)
-    unless (Gnome2::Client -> new() -> connected());
+  our $application;
+  do "t/TestBoilerplate";
 
   #############################################################################
 

@@ -5,19 +5,13 @@ use Gnome2;
 use constant TESTS => 4;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconSelection.t,v 1.3 2003/09/26 14:33:17 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconSelection.t,v 1.5 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
-  skip("You don't appear to have the GNOME session manager running.", TESTS)
-    unless (-d "$ENV{ HOME }/.gconfd" &&
-            -d "$ENV{ HOME }/.gnome2");
-
-  my $application = Gnome2::Program -> init("Test", "0.1");
-
-  skip("Couldn't connect to the session manager.", TESTS)
-    unless (Gnome2::Client -> new() -> connected());
+  our $application;
+  do "t/TestBoilerplate";
 
   #############################################################################
 
@@ -29,7 +23,7 @@ SKIP: {
   $selection -> clear(1);
 
   $selection -> add_defaults();
-  $selection -> add_directory("/usr/share/icons");
+  $selection -> add_directory("/usr/share/pixmaps");
 
   $selection -> stop_loading();
   $selection -> show_icons();

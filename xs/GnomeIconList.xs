@@ -15,20 +15,53 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconList.xs,v 1.9 2003/11/15 11:16:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconList.xs,v 1.11 2003/12/12 02:39:38 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
 
+typedef enum {
+	GNOME2PERL_ICON_LIST_IS_EDITABLE = 1 << 0,
+	GNOME2PERL_ICON_LIST_STATIC_TEXT = 1 << 1
+} Gnome2PerlIconListFlags;
+
+static GType
+gnome2perl_icon_list_flags_get_type (void)
+{
+	static GType etype = 0;
+
+	if (etype == 0) {
+		static const GFlagsValue values[] = {
+			{ GNOME2PERL_ICON_LIST_IS_EDITABLE, "GNOME_ICON_LIST_IS_EDITABLE", "is-editable" },
+			{ GNOME2PERL_ICON_LIST_STATIC_TEXT, "GNOME_ICON_LIST_STATIC_TEXT", "static-text" },
+			{ 0, NULL, NULL }
+		};
+		etype = g_flags_register_static ("Gnome2PerlIconListFlags", values);
+	}
+
+	return etype;
+}
+
+SV *
+newSVGnome2PerlIconListFlags (Gnome2PerlIconListFlags flags)
+{
+	return gperl_convert_back_flags (gnome2perl_icon_list_flags_get_type (), flags);
+}
+
+Gnome2PerlIconListFlags
+SvGnome2PerlIconListFlags (SV *sv)
+{
+	return gperl_convert_flags (gnome2perl_icon_list_flags_get_type (), sv);
+}
+
 MODULE = Gnome2::IconList	PACKAGE = Gnome2::IconList	PREFIX = gnome_icon_list_
 
-# FIXME: should somehow enable the cool flags wrapping for this one too.
 ##  GtkWidget *gnome_icon_list_new (guint icon_width, GtkAdjustment *adj, int flags) 
 GtkWidget *
 gnome_icon_list_new (class, icon_width, adj, flags)
 	guint icon_width
 	GtkAdjustment *adj
-	int flags
+	Gnome2PerlIconListFlags flags
     C_ARGS:
 	icon_width, adj, flags
 
@@ -264,3 +297,7 @@ GObject *
 gnome_icon_list_get_icon_pixbuf_item (gil, idx)
 	GnomeIconList *gil
 	int idx
+    CODE:
+	RETVAL = (GObject *) gnome_icon_list_get_icon_pixbuf_item (gil, idx);
+    OUTPUT:
+	RETVAL

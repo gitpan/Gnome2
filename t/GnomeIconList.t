@@ -2,32 +2,21 @@
 use strict;
 use Gnome2;
 
-use constant TESTS => 8;
+use constant TESTS => 10;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconList.t,v 1.6 2003/11/02 19:46:49 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconList.t,v 1.10 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
-  skip("You don't appear to have the GNOME session manager running.", TESTS)
-    unless (-d "$ENV{ HOME }/.gconfd" &&
-            -d "$ENV{ HOME }/.gnome2");
-
-  my $application = Gnome2::Program -> init("Test", "0.1");
-
-  skip("Couldn't connect to the session manager.", TESTS)
-    unless (Gnome2::Client -> new() -> connected());
+  our $application;
+  do "t/TestBoilerplate";
 
   #############################################################################
 
   my $adjustment = Gtk2::Adjustment -> new(50, 0, 100, 5, 5, 20);
-
-  # FIXME: flags ...
-  my $list =
-    Gnome2::IconList -> new(23,
-                            $adjustment,
-                            0);
+  my $list = Gnome2::IconList -> new(23, $adjustment, [qw(static-text is-editable)]);
   isa_ok($list, "Gnome2::IconList");
 
   $list -> set_hadjustment($adjustment);
@@ -81,7 +70,16 @@ SKIP: {
 
   like($list -> get_items_per_line(), qr/^\d+$/);
 
-  isa_ok($list -> get_icon_text_item(1), "Gnome2::IconTextItem");
+  my $item = $list -> get_icon_text_item(1);
+  isa_ok($item, "Gnome2::IconTextItem");
+  $item -> configure(10, 10, 23, "Sans 12", "BLA!", 0, 1);
+  is($item -> get_text(), "BLA!");
+  $item -> setxy(11, 11);
+  $item -> select(1);
+  $item -> focus(1);
+  $item -> start_editing();
+  isa_ok($item -> get_editable(), "Gtk2::Editable");
+  $item -> stop_editing(0);
 
   # isa_ok($list -> get_icon_pixbuf_item(1), "Gnome2::Canvas::Pixbuf");
 

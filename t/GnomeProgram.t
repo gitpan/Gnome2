@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 7;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeProgram.t,v 1.4 2003/11/02 19:46:49 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeProgram.t,v 1.5 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -14,8 +14,13 @@ SKIP: {
     unless (-d "$ENV{ HOME }/.gconfd" &&
             -d "$ENV{ HOME }/.gnome2");
 
+  skip("Couldn't initialize Gtk2", TESTS)
+    unless (Gtk2 -> init_check());
+
   skip("Couldn't connect to the session manager.", TESTS)
     unless (Gnome2::Client -> new() -> connected());
+
+  #############################################################################
 
   Gnome2::Program -> module_register("libgnome");
   ok(Gnome2::Program -> module_registered("libgnome"));

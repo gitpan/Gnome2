@@ -5,25 +5,19 @@ use Gnome2;
 use constant TESTS => 2;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeAppHelper.t,v 1.4 2003/11/02 19:46:49 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeAppHelper.t,v 1.6 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
-  skip("You don't appear to have the GNOME session manager running.", TESTS)
-    unless (-d "$ENV{ HOME }/.gconfd" &&
-            -d "$ENV{ HOME }/.gnome2");
-
-  my $application = Gnome2::Program -> init("Test", "0.1");
-
-  skip("Couldn't connect to the session manager.", TESTS)
-    unless (Gnome2::Client -> new() -> connected());
+  our $application;
+  do "t/TestBoilerplate";
 
   #############################################################################
 
   my $menubar_info = [
-    { type => "item", label => "Item", callback => sub { } },
-    { type => "toggleitem", label => "Toggle", callback => sub { } },
+    { type => "item", label => "Item", callback => sub { warn @_; } },
+    { type => "toggleitem", label => "Toggle", callback => sub { warn @_; } },
     {
       type => "subtree",
       label => "Radio Items",
@@ -33,7 +27,9 @@ SKIP: {
           moreinfo => [
             {
               type => "item",
-              label => "A"
+              label => "A",
+              callback => sub { warn @_; },
+              hint => "Don't click me!"
             },
             {
               type => "item",
@@ -68,14 +64,10 @@ SKIP: {
   ];
 
   my $toolbar_info = [
-    [ "item", "Item", undef, sub { }, undef, undef, undef, undef ],
+    [ "item", "Item", undef, sub { warn @_; }, undef, undef, undef, undef ],
     { type => "separator" },
-    { type => "toggleitem", label => "Toggle", callback => sub { } }
+    { type => "toggleitem", label => "Toggle", callback => sub { warn @_; } }
   ];
-
-  my $appbar_info = [ { type => "item", label => "Hmm" } ];
-  my $statusbar_info = [ { type => "item", label => "hMm" } ];
-  my $menu_info = [ { type => "item", label => "hmM" } ];
 
   #############################################################################
 
@@ -111,8 +103,9 @@ SKIP: {
   my $appbar = Gnome2::AppBar -> new(1, 1, "always");
   my $statusbar = Gtk2::Statusbar -> new();
 
-  # FIXME: why do these give me warnings?
-  # $appbar -> install_menu_hints($appbar_info);
-  # $statusbar -> install_menu_hints($statusbar_info);
-  # $app -> install_menu_hints($menu_info);
+  $app -> set_statusbar($appbar);
+
+  $appbar -> install_menu_hints($menubar_info);
+  $statusbar -> install_menu_hints($menubar_info);
+  $app -> install_menu_hints($menubar_info);
 }

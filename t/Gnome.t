@@ -5,19 +5,13 @@ use Gnome2;
 use constant TESTS => 23;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/Gnome.t,v 1.4 2003/09/26 14:33:17 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/Gnome.t,v 1.6 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
-  skip("You don't appear to have the GNOME session manager running.", TESTS)
-    unless (-d "$ENV{ HOME }/.gconfd" &&
-            -d "$ENV{ HOME }/.gnome2");
-
-  my $application = Gnome2::Program -> init("Test", "0.1");
-
-  skip("Couldn't connect to the session manager.", TESTS)
-    unless (Gnome2::Client -> new() -> connected());
+  our $application;
+  do "t/TestBoilerplate";
 
   #############################################################################
 
@@ -55,6 +49,13 @@ SKIP: {
 
   $window -> toplevel_set_title("test.doc", "Test", ".doc");
   is($window -> get_title(), "test : Test");
+
+  Gnome2::WindowIcon -> init();
+  Gnome2::WindowIcon -> set_from_default($window);
+  Gnome2::WindowIcon -> set_from_file($window, "/usr/share/pixmaps/yes.xpm");
+  Gnome2::WindowIcon -> set_from_file_list($window, ["/usr/share/pixmaps/yes.xpm"]);
+  Gnome2::WindowIcon -> set_default_from_file("/usr/share/pixmaps/yes.xpm");
+  Gnome2::WindowIcon -> set_default_from_file_list(["/usr/share/pixmaps/yes.xpm"]);
 
   #############################################################################
 

@@ -2,17 +2,16 @@
 use strict;
 use Gnome2;
 
-use Test::More tests => 3;
+use constant TESTS => 3;
+use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePasswordDialog.t,v 1.2 2003/11/28 21:23:06 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePasswordDialog.t,v 1.3 2003/12/15 00:17:24 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
-  skip("the authentication stuff is new in 2.3.6", 3)
-    unless (Gnome2 -> check_version(2, 3, 6));
+  do "t/TestBoilerplate";
 
-  Gtk2 -> init();
   Gnome2::AuthenticationManager -> init();
 
   my $dialog = Gnome2::PasswordDialog -> new("Bla", "Bla!", "bla", "alb", 1);

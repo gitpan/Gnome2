@@ -1,4 +1,4 @@
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.22 2003/11/28 21:23:03 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.23 2003/12/15 00:17:20 kaffeetisch Exp $
 
 package Gnome2;
 
@@ -13,7 +13,7 @@ require DynaLoader;
 
 our @ISA = qw(DynaLoader);
 
-our $VERSION = '0.49';
+our $VERSION = '0.90';
 
 sub dl_load_flags { 0x01 }
 

@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeClient.xs,v 1.9 2003/11/14 18:51:31 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeClient.xs,v 1.10 2003/12/10 21:13:17 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -230,7 +230,6 @@ const gchar *
 gnome_client_get_desktop_id (client)
 	GnomeClient * client
 
-# FIXME: the callback isn't called. why?
 ## void gnome_client_request_interaction (GnomeClient *client, GnomeDialogType dialog_type, GnomeInteractFunction function, gpointer data) 
 ## void gnome_client_request_interaction_interp (GnomeClient *client, GnomeDialogType dialog_type, GtkCallbackMarshal function, gpointer data, GtkDestroyNotify destroy) 
 void

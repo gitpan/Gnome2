@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeURL.xs,v 1.3 2003/11/07 18:46:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeURL.xs,v 1.6 2003/12/09 20:50:22 muppetman Exp $
  */
 
 #include "gnome2perl.h"
@@ -35,10 +35,26 @@ gnome_url_show (class, url)
     OUTPUT:
 	RETVAL
 
-###  gboolean gnome_url_show_with_env (const char *url, char **envp, GError **error) 
-#gboolean
-#gnome_url_show_with_env (url, envp, error)
-#	const char *url
-#	char **envp
-#	GError **error
 
+#if LIBGNOME_CHECK_VERSION (2,1,1)
+
+##  gboolean gnome_url_show_with_env (const char *url, char **envp, GError **error) 
+gboolean
+gnome_url_show_with_env (class, url, env_ref)
+	const char *url
+	SV *env_ref
+    PREINIT:
+	char **envp;
+	GError *error = NULL;
+    CODE:
+	envp = SvGnomeCharArray (env_ref);
+
+	RETVAL = gnome_url_show_with_env (url, envp, &error);
+	if (!RETVAL)
+		gperl_croak_gerror("Gnome2::URL->show", error);
+
+	g_free (envp);
+    OUTPUT:
+	RETVAL
+
+#endif

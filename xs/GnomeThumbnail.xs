@@ -15,12 +15,18 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeThumbnail.xs,v 1.5 2003/11/21 08:09:23 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeThumbnail.xs,v 1.5.2.1 2004/05/21 14:11:48 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
 
 MODULE = Gnome2::Thumbnail	PACKAGE = Gnome2::ThumbnailFactory	PREFIX = gnome_thumbnail_factory_
+
+BOOT:
+/* pass -Werror even if there are no xsubs at all */
+#ifndef GNOME_TYPE_THUMBNAIL_FACTORY
+	PERL_UNUSED_VAR (file);
+#endif
 
 #ifdef GNOME_TYPE_THUMBNAIL_FACTORY
 

@@ -1,5 +1,5 @@
 #
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Makefile.PL,v 1.36 2004/03/29 18:04:31 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Makefile.PL,v 1.36.2.1 2004/04/27 18:47:33 kaffeetisch Exp $
 #
 
 use 5.008;
@@ -38,6 +38,7 @@ unless (eval "use ExtUtils::Depends '$build_reqs{'perl-ExtUtils-Depends'}';"
          PREREQ_PM    => {
             'Glib'                => $build_reqs{'perl-Glib'},
             'Gtk2'                => $build_reqs{'perl-Gtk2'},
+            'Gnome2::Canvas'      => $build_reqs{'perl-Gnome2-Canvas'},
             'Gnome2::VFS'         => $build_reqs{'perl-Gnome2-VFS'},
             'ExtUtils::Depends'   => $build_reqs{'perl-ExtUtils-Depends'},
             'ExtUtils::PkgConfig' => $build_reqs{'perl-ExtUtils-PkgConfig'},

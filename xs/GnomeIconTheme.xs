@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconTheme.xs,v 1.16 2003/12/15 23:05:06 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconTheme.xs,v 1.16.2.1 2004/05/21 14:11:48 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -48,7 +48,8 @@ data_to_hv (const GnomeIconData * data)
 	hv_store (hv, "x1", 2, newSViv (data->x1), 0);
 	hv_store (hv, "y1", 2, newSViv (data->y1), 0);
 	hv_store (hv, "attach_points", 13, newRV_noinc ((SV*) av), 0);
-	hv_store (hv, "display_name", 12, newSVpv (data->display_name, PL_na), 0);
+	if (data->display_name)
+		hv_store (hv, "display_name", 12, newSVpv (data->display_name, PL_na), 0);
 
 	return hv;
 }
@@ -121,9 +122,15 @@ SvGnomeIconData (SV * sv)
 	return data;
 }
 
-#endif
+#endif /* GNOME_TYPE_ICON_THEME */
 
 MODULE = Gnome2::IconTheme	PACKAGE = Gnome2::IconTheme	PREFIX = gnome_icon_theme_
+
+BOOT:
+/* pass -Werror even if there are no xsubs at all */
+#ifndef GNOME_TYPE_ICON_THEME
+	PERL_UNUSED_VAR (file);
+#endif
 
 #ifdef GNOME_TYPE_ICON_THEME
 

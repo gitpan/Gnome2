@@ -1,3 +1,40 @@
+2004/05/29 16:38 (+0200) kaffeetisch
+
+	* Gnome2.pm
+	* NEWS: Version 1.001.
+
+2004/05/28 23:58 (+0200) kaffeetisch
+
+	* Gnome2.pm: Actually use() Gnome2::Canvas so users of Gnome2 are
+	not required to do so themselves.
+
+	* t/GnomeIconTheme.t: Use the gnome-fs-directory icon.  Check if
+	the icon data is a hash reference.
+
+2004/05/21 16:08 (+0200) kaffeetisch
+
+	* xs/GnomeIconTheme.xs (data_to_hv): Check if display_name is NULL
+	before using it.
+
+	* xs/GnomeIconLookup.xs
+	* xs/GnomeIconTheme.xs
+	* xs/GnomePasswordDialog.xs
+	* xs/GnomeThumbnail.xs: Mark 'file' unused in case there are no
+	xsubs at all.
+
+2004/05/16 17:45 (+0200) kaffeetisch
+
+	* t/GnomeDruid.t: Add reference to the relevant bug to the
+	set_contents_background comment.
+
+	* t/GnomeThumbnail.t: Test has_uri and is_valid but skip them for
+	now since they're broken.
+
+2004/04/27 20:45 (+0200) kaffeetisch
+
+	* Makefile.PL: Add Gnome2::Canvas to PREREQ_PM as well so that it
+	(hopefully) gets picked up by CPAN(PLUS).pm.
+
 2004/03/29 19:55 (+0200) kaffeetisch
 
 	* Gnome2.pm

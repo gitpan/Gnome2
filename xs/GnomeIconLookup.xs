@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconLookup.xs,v 1.8 2003/12/15 23:05:06 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconLookup.xs,v 1.8.2.1 2004/05/21 14:11:48 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -24,6 +24,12 @@ MODULE = Gnome2::IconLookup	PACKAGE = Gnome2::IconTheme	PREFIX = gnome_icon_
 
 ### GnomeIconTheme didn't appear until about 2.0.6, according to the changelogs
 ### for libgnomeui.
+
+BOOT:
+/* pass -Werror even if there are no xsubs at all */
+#ifndef GNOME_TYPE_ICON_THEME
+	PERL_UNUSED_VAR (file);
+#endif
 
 #ifdef GNOME_TYPE_ICON_THEME
 

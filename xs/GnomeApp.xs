@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeApp.xs,v 1.7 2003/11/07 18:46:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeApp.xs,v 1.9 2004/03/02 03:31:29 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -23,10 +23,9 @@
 MODULE = Gnome2::App	PACKAGE = Gnome2::App	PREFIX = gnome_app_
 
 SV *
-members (app)
+prefix (app)
 	GnomeApp *app
     ALIAS:
-	Gnome2::App::prefix = 0
 	Gnome2::App::dock = 1
 	Gnome2::App::statusbar = 2
 	Gnome2::App::vbox = 3
@@ -46,6 +45,7 @@ members (app)
 		case 6: RETVAL = newSVBonoboDockLayout (app->layout); break;
 		case 7: RETVAL = newSVGtkAccelGroup (app->accel_group); break;
 		case 8: RETVAL = newSVuv (app->enable_layout_config); break;
+		default: RETVAL = &PL_sv_undef;
 	}
     OUTPUT:
 	RETVAL

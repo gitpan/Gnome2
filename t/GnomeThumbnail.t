@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 2;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeThumbnail.t,v 1.8 2003/12/15 00:17:24 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeThumbnail.t,v 1.9 2004/03/02 02:37:33 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -14,7 +14,7 @@ SKIP: {
   do "t/TestBoilerplate";
 
   skip("GnomeThumbnail is new in 2.0.6", 2)
-    unless (Gnome2 -> check_version(2, 0, 6));
+    unless (Gnome2 -> CHECK_VERSION(2, 0, 6));
 
   #############################################################################
 

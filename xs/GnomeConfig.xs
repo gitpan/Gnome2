@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeConfig.xs,v 1.3 2003/12/13 22:42:10 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeConfig.xs,v 1.8 2004/03/02 03:31:29 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -52,7 +52,6 @@ char *
 get_string (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::get_string = 0
 	Gnome2::Config::get_translated_string = 1
 	Gnome2::Config::Private::get_string = 2
 	Gnome2::Config::Private::get_translated_string = 3
@@ -62,22 +61,27 @@ get_string (class, path)
 		case 1: RETVAL = gnome_config_get_translated_string (path); break;
 		case 2: RETVAL = gnome_config_private_get_string (path); break;
 		case 3: RETVAL = gnome_config_private_get_translated_string (path); break;
+		default: RETVAL = NULL;
 	}
     OUTPUT:
 	RETVAL
     CLEANUP:
 	g_free (RETVAL);
 
+=for apidoc
+
+Returns a boolean indicating whether the default was used and the actual value.
+
+=cut
 void
 get_string_with_default (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::get_string_with_default = 0
 	Gnome2::Config::get_translated_string_with_default = 1
 	Gnome2::Config::Private::get_string_with_default = 2
 	Gnome2::Config::Private::get_translated_string_with_default = 3
     PREINIT:
-	char *retval;
+	char *retval = NULL;
 	gboolean def;
     PPCODE:
 	switch (ix) {
@@ -98,24 +102,28 @@ int
 get_int (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::get_int = 0
 	Gnome2::Config::Private::get_int = 1
     CODE:
 	switch (ix) {
 		case 0: RETVAL = gnome_config_get_int (path); break;
 		case 1: RETVAL = gnome_config_private_get_int (path); break;
+		default: RETVAL = 0;
 	}
     OUTPUT:
 	RETVAL
 
+=for apidoc
+
+Returns a boolean indicating whether the default was used and the actual value.
+
+=cut
 void
 get_int_with_default (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::get_int_with_default = 0
 	Gnome2::Config::Private::get_int_with_default = 1
     PREINIT:
-	int retval;
+	int retval = 0;
 	gboolean def;
     PPCODE:
 	switch (ix) {
@@ -131,25 +139,28 @@ gdouble
 get_float (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::get_float = 0
 	Gnome2::Config::Private::get_float = 1
     CODE:
 	switch (ix) {
 		case 0: RETVAL = gnome_config_get_float (path); break;
 		case 1: RETVAL = gnome_config_private_get_float (path); break;
+		default: RETVAL = 0.0;
 	}
     OUTPUT:
 	RETVAL
 
-# FIXME: seems to return integers instead of floats.
+=for apidoc
+
+Returns a boolean indicating whether the default was used and the actual value.
+
+=cut
 void
 get_float_with_default (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::get_float_with_default = 0
 	Gnome2::Config::Private::get_float_with_default = 1
     PREINIT:
-	gdouble retval;
+	gdouble retval = 0.0;
 	gboolean def;
     PPCODE:
 	switch (ix) {
@@ -165,25 +176,29 @@ gboolean
 get_bool (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::get_bool = 0
 	Gnome2::Config::Private::get_bool = 1
     CODE:
 	switch (ix) {
 		case 0: RETVAL = gnome_config_get_bool (path); break;
 		case 1: RETVAL = gnome_config_private_get_bool (path); break;
+		default: RETVAL = FALSE;
 	}
     OUTPUT:
 	RETVAL
 
+=for apidoc
+
+Returns a boolean indicating whether the default was used and the actual value.
+
+=cut
 void
 get_bool_with_default (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::get_bool_with_default = 0
 	Gnome2::Config::Private::get_bool_with_default = 1
     PREINIT:
-	gboolean retval;
-	gboolean def;
+	gboolean retval = FALSE;
+	gboolean def = FALSE;
     PPCODE:
 	switch (ix) {
 		case 0: retval = gnome_config_get_bool_with_default (path, &def); break;
@@ -198,7 +213,6 @@ SV *
 get_vector (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::get_vector = 0
 	Gnome2::Config::Private::get_vector = 1
     PREINIT:
 	char **argv = NULL;
@@ -221,11 +235,15 @@ get_vector (class, path)
     OUTPUT:
 	RETVAL
 
+=for apidoc
+
+Returns a boolean indicating whether the default was used and the actual value.
+
+=cut
 void
 get_vector_with_default (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::get_vector_with_default = 0
 	Gnome2::Config::Private::get_vector_with_default = 1
     PREINIT:
 	gboolean def;
@@ -256,7 +274,6 @@ set_string (class, path, value)
 	const char *path
 	const char *value
     ALIAS:
-	Gnome2::Config::set_string = 0
 	Gnome2::Config::set_translated_string = 1
 	Gnome2::Config::Private::set_string = 2
 	Gnome2::Config::Private::set_translated_string = 3
@@ -273,7 +290,6 @@ set_int (class, path, value)
 	const char *path
 	int value
     ALIAS:
-	Gnome2::Config::set_int = 0
 	Gnome2::Config::Private::set_int = 1
     CODE:
 	switch (ix) {
@@ -286,7 +302,6 @@ set_float (class, path, value)
 	const char *path
 	gdouble value
     ALIAS:
-	Gnome2::Config::set_float = 0
 	Gnome2::Config::Private::set_float = 1
     CODE:
 	switch (ix) {
@@ -299,7 +314,6 @@ set_bool (class, path, value)
 	const char *path
 	gboolean value
     ALIAS:
-	Gnome2::Config::set_bool = 0
 	Gnome2::Config::Private::set_bool = 1
     CODE:
 	switch (ix) {
@@ -312,7 +326,6 @@ set_vector (class, path, value)
 	const char *path
 	SV *value
     ALIAS:
-	Gnome2::Config::set_vector = 0
 	Gnome2::Config::Private::set_vector = 1
     PREINIT:
 	char **argv;
@@ -342,10 +355,9 @@ set_vector (class, path, value)
 # --------------------------------------------------------------------------- #
 
 gboolean
-bools (class, path)
+has_section (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::has_section = 0
 	Gnome2::Config::Private::has_section = 1
 	Gnome2::Config::sync_file = 2
 	Gnome2::Config::Private::sync_file = 3
@@ -355,15 +367,15 @@ bools (class, path)
 		case 1: RETVAL = gnome_config_private_has_section (path); break;
 		case 2: RETVAL = gnome_config_sync_file ((char *) path); break;
 		case 3: RETVAL = gnome_config_private_sync_file ((char *) path); break;
+		default: RETVAL = FALSE;
 	}
     OUTPUT:
 	RETVAL
 
 void
-voids (class, path)
+drop_file (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::drop_file = 0
 	Gnome2::Config::Private::drop_file = 1
 	Gnome2::Config::clean_file = 2
 	Gnome2::Config::Private::clean_file = 3
@@ -387,12 +399,12 @@ gchar *
 get_real_path (class, path)
 	gchar *path
     ALIAS:
-	Gnome2::Config::get_real_path = 0
 	Gnome2::Config::Private::get_real_path = 1
     CODE:
 	switch (ix) {
 		case 0: RETVAL = gnome_config_get_real_path (path); break;
 		case 1: RETVAL = gnome_config_private_get_real_path (path); break;
+		default: RETVAL = NULL;
 	}
     OUTPUT:
 	RETVAL
@@ -430,7 +442,6 @@ SV *
 gnome_config_init_iterator (class, path)
 	const char *path
     ALIAS:
-	Gnome2::Config::init_iterator = 0
 	Gnome2::Config::init_iterator_sections = 1
 	Gnome2::Config::Private::init_iterator = 2
 	Gnome2::Config::Private::init_iterator_sections = 3
@@ -453,6 +464,11 @@ gnome_config_init_iterator (class, path)
 
 MODULE = Gnome2::Config	PACKAGE = Gnome2::Config::Iterator	PREFIX = gnome_config_iterator_
 
+=for apidoc
+
+Returns the new GnomeConfigIterator, the key, and the value.
+
+=cut
 void
 gnome_config_iterator_next (handle)
 	SV *handle

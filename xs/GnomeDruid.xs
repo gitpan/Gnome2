@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeDruid.xs,v 1.6 2003/11/15 11:16:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeDruid.xs,v 1.8 2004/03/02 03:31:29 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -23,10 +23,9 @@
 MODULE = Gnome2::Druid	PACKAGE = Gnome2::Druid	PREFIX = gnome_druid_
 
 GtkWidget *
-buttons (druid)
+help (druid)
 	GnomeDruid * druid
     ALIAS:
-	Gnome2::Druid::help = 0
 	Gnome2::Druid::back = 1
 	Gnome2::Druid::next = 2
 	Gnome2::Druid::cancel = 3
@@ -38,6 +37,7 @@ buttons (druid)
 		case 2: RETVAL = druid->next; break;
 		case 3: RETVAL = druid->cancel; break;
 		case 4: RETVAL = druid->finish; break;
+		default: RETVAL = NULL;
 	}
     OUTPUT:
 	RETVAL

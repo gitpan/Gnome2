@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 6;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePopupMenu.t,v 1.7 2003/12/15 00:17:24 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePopupMenu.t,v 1.9 2004/03/02 02:37:33 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -58,15 +58,15 @@ SKIP: {
   isa_ok($popup, "Gtk2::Menu");
   isa_ok($popup -> get_accel_group(), "Gtk2::AccelGroup");
 
-  $popup -> append($additional_uiinfo);
+  $popup -> append_from($additional_uiinfo);
 
   my $window = Gtk2::Window -> new("toplevel");
   my $button = Gtk2::Button -> new("BUH!");
 
   $window -> add($button);
 
-  $popup -> attach($button);
-  $popup -> attach($button, "blub");
+  $popup -> attach_to($button);
+  $popup -> attach_to($button, "blub");
 
   if (join("", Gtk2 -> get_version_info()) >= 220) {
     my $event = Gtk2::Gdk::Event -> new("button_press");

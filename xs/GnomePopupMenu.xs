@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomePopupMenu.xs,v 1.7 2003/12/14 04:42:37 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomePopupMenu.xs,v 1.9 2004/03/02 02:37:33 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -57,10 +57,12 @@ MODULE = Gnome2::PopupMenu	PACKAGE = Gtk2::Menu	PREFIX = gnome_popup_menu_
 
 ##  void gnome_popup_menu_attach (GtkWidget *popup, GtkWidget *widget, gpointer user_data) 
 void
-gnome_popup_menu_attach (popup, widget, user_data=NULL)
+gnome_popup_menu_attach_to (popup, widget, user_data=NULL)
 	GtkWidget *popup
 	GtkWidget *widget
 	SV * user_data
+    CODE:
+	gnome_popup_menu_attach (popup, widget, user_data);
 
 ####  void gnome_popup_menu_do_popup (GtkWidget *popup, GtkMenuPositionFunc pos_func, gpointer pos_data, GdkEventButton *event, gpointer user_data, GtkWidget *for_widget) 
 void
@@ -126,7 +128,7 @@ gnome_popup_menu_do_popup_modal (popup, pos_func, pos_data, event, user_data, fo
 
 ##  void gnome_popup_menu_append (GtkWidget *popup, GnomeUIInfo *uiinfo) 
 void
-gnome_popup_menu_append (popup, uiinfo)
+gnome_popup_menu_append_from (popup, uiinfo)
 	GtkWidget *popup
 	GnomeUIInfo *uiinfo
     CODE:

@@ -1,0 +1,21 @@
+Overview of changes in Gnome2 1.00
+==================================
+
+* Depend on Glib 1.04, Gnome2::Canvas 1.00, and Gnome2::VFS 1.00.
+
+Overview of changes in Gnome2 0.94
+==================================
+
+* Document which functions may croak on error.
+
+Overview of changes in Gnome2 0.93
+==================================
+
+* Changed the binding of gnome_popup_menu_append from Gtk2::Menu::append to
+  Gtk2::Menu::append_from.  This is API breakage.  Any existing application
+  using Gtk2::Menu::append and expecting to get gnome_popup_menu_append needs
+  to be changed.
+* Added new GnomePasswordDialog methods.
+* Switched to the new version information policy introduced by Glib and Gtk2.
+* Made minor bug fixes and improvements.
+* In accordance with the GNOME Bindings release plan, Gnome2 froze API.

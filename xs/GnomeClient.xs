@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeClient.xs,v 1.10 2003/12/10 21:13:17 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeClient.xs,v 1.14 2004/03/02 03:31:29 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -67,11 +67,11 @@ const gchar *
 gnome_client_get_config_prefix (client)
 	GnomeClient *client
 
-### FIXME the docs say the string is newly allocated but the signature says
-###       it shouldn't be freed.  who do we believe?
 const gchar *
 gnome_client_get_global_config_prefix (client)
 	GnomeClient *client
+    CLEANUP:
+	g_free ((gchar *) RETVAL);
 
 ## void gnome_client_set_global_config_prefix (GnomeClient *client, const gchar* prefix) 
 void
@@ -101,10 +101,9 @@ gnome_client_set_priority (client, priority)
 ## void gnome_client_set_shutdown_command (GnomeClient *client, gint argc, gchar *argv[]) 
 ## void gnome_client_set_clone_command (GnomeClient *client, gint argc, gchar *argv[]) 
 void
-set_commands (client, ...)
+set_restart_command (client, ...)
 	GnomeClient *client
     ALIAS:
-	Gnome2::Client::set_restart_command = 0
 	Gnome2::Client::set_discard_command = 1
 	Gnome2::Client::set_resign_command = 2
 	Gnome2::Client::set_shutdown_command = 3
@@ -254,10 +253,8 @@ gnome_client_request_interaction (client, dialog_type, function, data=NULL)
 
 ## void gnome_interaction_key_return (gint key, gboolean cancel_shutdown) 
 void
-gnome_interaction_key_return (class, key, cancel_shutdown)
+gnome_client_interaction_key_return (class, key, cancel_shutdown)
 	gint key
 	gboolean cancel_shutdown
-    ALIAS:
-	Gnome2::Client::interaction_key_return = 0
-    C_ARGS:
-	key, cancel_shutdown
+    CODE:
+    	gnome_interaction_key_return (key, cancel_shutdown);

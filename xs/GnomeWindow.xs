@@ -15,10 +15,14 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeWindow.xs,v 1.3 2003/11/21 08:09:23 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeWindow.xs,v 1.6 2004/01/27 18:47:29 kaffeetisch Exp $
  */
 
+/* the stuff in gnome-window.h was deprecated as of Oct '03 */
+#undef GNOME_DISABLE_DEPRECATED
+
 #include "gnome2perl.h"
+#include <libgnomeui/gnome-window.h>
 
 MODULE = Gnome2::Window	PACKAGE = Gtk2::Window	PREFIX = gnome_window_
 

@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeAppHelper.xs,v 1.18 2003/12/14 19:57:11 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeAppHelper.xs,v 1.21 2004/03/02 03:31:29 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -507,7 +507,6 @@ gnome_app_create_menus (app, uiinfo)
 	GnomeApp *app
 	GnomeUIInfo *uiinfo
     ALIAS:
-	create_menus = 0
 	create_toolbar = 1
     CODE:
 	if (ix == 0)
@@ -562,29 +561,23 @@ gnome_app_setup_toolbar (class, toolbar, dock_item)
 
 MODULE = Gnome2::AppHelper	PACKAGE = Gnome2::AppBar	PREFIX = gnome_app_
 
-# FIXME: get rid of the ALIAS.
 ## void gnome_app_install_appbar_menu_hints (GnomeAppBar* appbar, GnomeUIInfo* uiinfo) 
 void
-gnome_app_install_appbar_menu_hints (appbar, uiinfo)
+gnome_app_install_menu_hints (appbar, uiinfo)
 	GnomeAppBar* appbar
 	GnomeUIInfo* uiinfo
-    ALIAS:
-	Gnome2::AppBar::install_menu_hints = 0
-    C_ARGS:
-	appbar, uiinfo
+    CODE:
+	gnome_app_install_appbar_menu_hints (appbar, uiinfo);
 
 MODULE = Gnome2::AppHelper	PACKAGE = Gtk2::Statusbar	PREFIX = gnome_app_
 
 =for object Gnome2::AppHelper
 =cut
 
-# FIXME: get rid of the ALIAS.
 ## void gnome_app_install_statusbar_menu_hints (GtkStatusbar* bar, GnomeUIInfo* uiinfo) 
 void
-gnome_app_install_statusbar_menu_hints (bar, uiinfo)
+gnome_app_install_menu_hints (bar, uiinfo)
 	GtkStatusbar* bar
 	GnomeUIInfo* uiinfo
-    ALIAS:
-	Gtk2::Statusbar::install_menu_hints = 0
-    C_ARGS:
-	bar, uiinfo
+    CODE:
+	gnome_app_install_statusbar_menu_hints (bar, uiinfo);

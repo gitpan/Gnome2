@@ -2,10 +2,10 @@
 use strict;
 use Gnome2;
 
-use constant TESTS => 48;
+use constant TESTS => 50;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeConfig.t,v 1.4 2003/12/15 00:17:24 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeConfig.t,v 1.8 2004/03/29 18:04:56 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -87,8 +87,13 @@ SKIP: {
   Gnome2::Config::Private -> set_float("/Geometry/Ratio", 1.23);
   is(Gnome2::Config::Private -> get_float("/Geometry/Ratio"), 1.23);
 
-  # is_deeply([Gnome2::Config::Private -> get_float_with_default("/Geometry/Whops=0.5")], [1, 0.5]);
-  # is_deeply([Gnome2::Config::Private -> get_float_with_default("/Geometry/Ratio")], [0, 1.23]);
+  SKIP: {
+    skip("get_float_with_default was broken prior to 2.6.0", 2)
+      unless (Gnome2 -> CHECK_VERSION(2, 6, 0));
+
+    is_deeply([Gnome2::Config::Private -> get_float_with_default("/Geometry/Whops=0.5")], [1, 0.5]);
+    is_deeply([Gnome2::Config::Private -> get_float_with_default("/Geometry/Ratio")], [0, 1.23]);
+  }
 
   Gnome2::Config::Private -> set_bool("/State/Hidden", 1);
   ok(Gnome2::Config::Private -> get_bool("/State/Hidden"));

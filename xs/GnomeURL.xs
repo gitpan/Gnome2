@@ -15,13 +15,15 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeURL.xs,v 1.6 2003/12/09 20:50:22 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeURL.xs,v 1.9 2004/03/29 18:04:59 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
 
 MODULE = Gnome2::URL	PACKAGE = Gnome2::URL	PREFIX = gnome_url_
 
+=for apidoc __gerror__
+=cut
 ##  gboolean gnome_url_show (const char *url, GError **error) 
 gboolean
 gnome_url_show (class, url)
@@ -36,8 +38,10 @@ gnome_url_show (class, url)
 	RETVAL
 
 
-#if LIBGNOME_CHECK_VERSION (2,1,1)
+#if LIBGNOME_CHECK_VERSION (2, 2, 0)
 
+=for apidoc __gerror__
+=cut
 ##  gboolean gnome_url_show_with_env (const char *url, char **envp, GError **error) 
 gboolean
 gnome_url_show_with_env (class, url, env_ref)
@@ -47,7 +51,7 @@ gnome_url_show_with_env (class, url, env_ref)
 	char **envp;
 	GError *error = NULL;
     CODE:
-	envp = SvGnomeCharArray (env_ref);
+	envp = SvEnvArray (env_ref);
 
 	RETVAL = gnome_url_show_with_env (url, envp, &error);
 	if (!RETVAL)

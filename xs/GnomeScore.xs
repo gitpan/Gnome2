@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeScore.xs,v 1.5 2003/11/07 18:46:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeScore.xs,v 1.6 2003/12/31 07:33:30 muppetman Exp $
  */
 
 #include "gnome2perl.h"
@@ -44,7 +44,7 @@ Returns a reference to an array per player, containing the name, the score and t
 
 =cut
 ##  gint gnome_score_get_notable(const gchar *gamename, const gchar *level, gchar ***names, gfloat **scores, time_t **scoretimes);
-SV *
+void
 gnome_score_get_notable (class, gamename, level)
 	const gchar *gamename
 	const gchar *level

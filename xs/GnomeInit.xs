@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeInit.xs,v 1.8 2003/11/07 18:46:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeInit.xs,v 1.10 2004/03/02 03:31:29 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -27,9 +27,8 @@ MODULE = Gnome2::Init	PACKAGE = Gnome2	PREFIX = gnome_
 =cut
 
 const char *
-dirs (class)
+user_dir_get (class)
     ALIAS:
-	Gnome2::user_dir_get = 0
 	Gnome2::user_private_dir_get = 1
 	Gnome2::user_accels_dir_get = 2
     CODE:
@@ -37,6 +36,7 @@ dirs (class)
 		case 0: RETVAL = gnome_user_dir_get (); break;
 		case 1: RETVAL = gnome_user_private_dir_get (); break;
 		case 2: RETVAL = gnome_user_accels_dir_get (); break;
+		default: RETVAL = NULL;
 	}
     OUTPUT:
 	RETVAL

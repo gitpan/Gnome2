@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/BonoboDockItem.xs,v 1.3 2003/11/07 18:46:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/BonoboDockItem.xs,v 1.4 2003/12/31 10:48:52 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -66,57 +66,3 @@ bonobo_dock_item_get_orientation (dock_item)
 BonoboDockItemBehavior
 bonobo_dock_item_get_behavior (dock_item)
 	BonoboDockItem *dock_item
-
-##  void bonobo_dock_item_set_locked (BonoboDockItem *dock_item, gboolean locked) 
-void
-bonobo_dock_item_set_locked (dock_item, locked)
-	BonoboDockItem *dock_item
-	gboolean locked
-
-##  gboolean bonobo_dock_item_detach (BonoboDockItem *item, gint x, gint y) 
-gboolean
-bonobo_dock_item_detach (item, x, y)
-	BonoboDockItem *item
-	gint x
-	gint y
-
-##  void bonobo_dock_item_attach (BonoboDockItem *item, GtkWidget *parent, gint x, gint y) 
-void
-bonobo_dock_item_attach (item, parent, x, y)
-	BonoboDockItem *item
-	GtkWidget *parent
-	gint x
-	gint y
-
-##  void bonobo_dock_item_unfloat (BonoboDockItem *item) 
-void
-bonobo_dock_item_unfloat (item)
-	BonoboDockItem *item
-
-##  void bonobo_dock_item_grab_pointer (BonoboDockItem *item) 
-void
-bonobo_dock_item_grab_pointer (item)
-	BonoboDockItem *item
-
-##  void bonobo_dock_item_drag_floating (BonoboDockItem *item, gint x, gint y) 
-void
-bonobo_dock_item_drag_floating (item, x, y)
-	BonoboDockItem *item
-	gint x
-	gint y
-
-##  void bonobo_dock_item_handle_size_request (BonoboDockItem *item, GtkRequisition *requisition) 
-void
-bonobo_dock_item_handle_size_request (item, requisition)
-	BonoboDockItem *item
-	GtkRequisition *requisition
-
-##  void bonobo_dock_item_get_floating_position (BonoboDockItem *item, gint *x, gint *y) 
-void
-bonobo_dock_item_get_floating_position (BonoboDockItem *item, OUTLIST gint x, OUTLIST gint y)
-
-# FIXME: gcc warns that 'assignment makes pointer from integer without a cast' here.
-##  GtkWidget *bonobo_dock_item_get_grip (BonoboDockItem *item) 
-GtkWidget *
-bonobo_dock_item_get_grip (item)
-	BonoboDockItem *item

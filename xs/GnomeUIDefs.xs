@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeUIDefs.xs,v 1.5 2003/11/07 18:46:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeUIDefs.xs,v 1.7 2004/03/02 03:31:29 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -23,11 +23,10 @@
 MODULE = Gnome2::UIDefs	PACKAGE = Gnome2::UIDefs
 
 SV *
-constants (class)
+pad (class)
     ALIAS:
-	pad = 1
-	pad_small = 2
-	pad_big = 3
+	pad_small = 1
+	pad_big = 2
 	key_name_quit = 4
 	key_mod_quit = 5
 	key_name_close = 8
@@ -80,9 +79,9 @@ constants (class)
 	char key[] = "_";
     CODE:
 	switch (ix) {
-		case 1: RETVAL = newSViv (GNOME_PAD); break;
-		case 2: RETVAL = newSViv (GNOME_PAD_SMALL); break;
-		case 3: RETVAL = newSViv (GNOME_PAD_BIG); break;
+		case 0: RETVAL = newSViv (GNOME_PAD); break;
+		case 1: RETVAL = newSViv (GNOME_PAD_SMALL); break;
+		case 2: RETVAL = newSViv (GNOME_PAD_BIG); break;
 
 		case 4: key[0] = GNOME_KEY_NAME_QUIT; RETVAL = newSVpv (key, PL_na); break;
 		case 5: RETVAL = newSViv (GNOME_KEY_MOD_QUIT); break;
@@ -155,6 +154,8 @@ constants (class)
 
 		case 52: key[0] = GNOME_KEY_NAME_NEW_GAME; RETVAL = newSVpv (key, PL_na); break;
 		case 53: RETVAL = newSViv (GNOME_KEY_MOD_NEW_GAME); break;
+
+		default: RETVAL = &PL_sv_undef;
 	}
     OUTPUT:
 	RETVAL

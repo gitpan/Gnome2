@@ -2,15 +2,18 @@
 use strict;
 use Gnome2;
 
-use constant TESTS => 3;
+use constant TESTS => 5;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePasswordDialog.t,v 1.3 2003/12/15 00:17:24 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePasswordDialog.t,v 1.6 2004/03/29 18:04:58 kaffeetisch Exp $
 
 ###############################################################################
 
 SKIP: {
   do "t/TestBoilerplate";
+
+  skip("GnomePasswordDialog and GnomeAuthenticationManager didn't appear until 2.4.0", TESTS)
+    unless (Gnome2 -> CHECK_VERSION(2, 4, 0));
 
   Gnome2::AuthenticationManager -> init();
 
@@ -18,14 +21,29 @@ SKIP: {
   isa_ok($dialog, "Gnome2::PasswordDialog");
 
   $dialog -> set_username("urgs");
-  $dialog -> set_password("urgs");
-  $dialog -> set_readonly_username(0);
-  # $dialog -> set_remember(0);
-  # $dialog -> set_remember_label_text(0);
-
   is($dialog -> get_username(), "urgs");
+
+  $dialog -> set_password("urgs");
   is($dialog -> get_password(), "urgs");
-  # is($dialog -> get_remember(), 0);
+
+  $dialog -> set_readonly_username(1);
+
+  SKIP: {
+    skip("things new in 2.6.0", 2)
+      unless (Gnome2 -> CHECK_VERSION(2, 6, 0));
+
+    $dialog -> set_show_username(1);
+    $dialog -> set_show_domain(1);
+    $dialog -> set_show_password(1);
+    $dialog -> set_show_remember(1);
+    $dialog -> set_readonly_domain(1);
+
+    $dialog -> set_remember("nothing");
+    is($dialog -> get_remember(), "nothing");
+
+    $dialog -> set_domain("urgs");
+    is($dialog -> get_domain(), "urgs");
+  }
 
   # $dialog -> run_and_block();
 }

@@ -1,5 +1,5 @@
 #
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Makefile.PL,v 1.28 2003/12/09 20:50:07 muppetman Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Makefile.PL,v 1.36 2004/03/29 18:04:31 kaffeetisch Exp $
 #
 
 use 5.008;
@@ -9,33 +9,28 @@ use ExtUtils::MakeMaker;
 use Cwd;
 use File::Spec;
 
-# minimum required version of dependancies we need to build
+# minimum required version of dependencies we need to build
 our %build_reqs = (
-	'perl-ExtUtils-Depends'   => '0.1',
-	'perl-ExtUtils-PkgConfig' => '0.1',
-	'perl-Glib'               => '1.01',
+	'perl-ExtUtils-Depends'   => '0.20',
+	'perl-ExtUtils-PkgConfig' => '1.03',
+	'perl-Glib'               => '1.04',
 	'perl-Gtk2'               => '1.00',
-	'perl-Gnome2-VFS'         => '0.01',
+	'perl-Gnome2-Canvas'      => '1.00',
+	'perl-Gnome2-VFS'         => '1.00',
 	'Gnome'                   => '2.0.0',
 	'Bonobo'                  => '2.0.0',
 );
 
-# minimum required version of dependancies we need to run
-our %runtime_reqs = (
-	'Gnome'	=> undef,
-);
-
 # Writing a fake Makefile ensures that CPAN will pick up the correct
 # dependencies and install them.
-unless (eval "use ExtUtils::Depends;"
-           . "use ExtUtils::PkgConfig;"
-	   . "use Gtk2::CodeGen;"
-           . "use Glib::MakeHelper;" # for do_pod_files()
-           # just seeing if Glib is available isn't enough, make sure
-           # it's recent enough, too 
+unless (eval "use ExtUtils::Depends '$build_reqs{'perl-ExtUtils-Depends'}';"
+           . "use ExtUtils::PkgConfig '$build_reqs{'perl-ExtUtils-PkgConfig'}';"
            . "use Glib '$build_reqs{'perl-Glib'}';"
            . "use Gtk2 '$build_reqs{'perl-Gtk2'}';"
+           . "use Gnome2::Canvas '$build_reqs{'perl-Gnome2-Canvas'}';"
            . "use Gnome2::VFS '$build_reqs{'perl-Gnome2-VFS'}';"
+	   . "use Gtk2::CodeGen;"
+           . "use Glib::MakeHelper;"
            . "1") {
    warn "$@\n";
    WriteMakefile(
@@ -55,16 +50,7 @@ unless (eval "use ExtUtils::Depends;"
 # in theory, getting what we need to build libgnomeui should 
 # also get everything we need for libgnome.
 my %libgnomeui_pkgcfg = ExtUtils::PkgConfig->find ("libgnomeui-2.0 >= $build_reqs{Gnome}");
-my %libgnome_pkgcfg = ExtUtils::PkgConfig->find ("libgnome-2.0");
-$runtime_reqs{Gnome} = $libgnomeui_pkgcfg{modversion};
-
 my %libbonoboui_pkgcfg = ExtUtils::PkgConfig->find("libbonoboui-2.0 >= $build_reqs{Bonobo}");
-
-my %cfgs = (
-	libgnome => \%libgnome_pkgcfg,
-	libgnomeui => \%libgnomeui_pkgcfg,
-	libbonoboui => \%libbonoboui_pkgcfg,
-);
 
 mkdir 'build', 0777;
 
@@ -81,8 +67,6 @@ our %pod_files = (
 	Glib::MakeHelper->do_pod_files (@xs_files),
 );
 
-Glib::MakeHelper->do_pod_files (@xs_files),
-
 #
 # autogeneration
 #
@@ -92,22 +76,12 @@ Gtk2::CodeGen->write_boot;
 #
 # create version guards for the libs that don't provide them.
 #
-open VERSION, ">build/gnome2perl-version.h";
-foreach my $pkg (keys %cfgs) {
-	my $stem = uc $pkg;
-	my @modversion = split /\./, $cfgs{$pkg}{modversion};
-	print VERSION "#define $stem\_MAJOR_VERSION   ($modversion[0])\n";
-	print VERSION "#define $stem\_MINOR_VERSION   ($modversion[1])\n";
-	print VERSION "#define $stem\_MICRO_VERSION   ($modversion[2])\n";
-	print VERSION
-	     "#define $stem\_CHECK_VERSION(major,minor,micro) \\\n"
-	   . "    ($stem\_MAJOR_VERSION > (major) || \\\n"
-	   . "     ($stem\_MAJOR_VERSION == (major) && $stem\_MINOR_VERSION > (minor)) || \\\n"
-	   . "     ($stem\_MAJOR_VERSION == (major) && $stem\_MINOR_VERSION == (minor) && \\\n"
-	   . "      $stem\_MICRO_VERSION >= (micro)))\n"
-	   . "\n";
-}
-close VERSION;
+ExtUtils::PkgConfig->write_version_macros(
+	"build/gnome2perl-versions.h",
+	'libgnome-2.0' => 'LIBGNOME',
+	'libgnomeui-2.0' => 'LIBGNOMEUI',
+	'libbonoboui-2.0' => 'LIBBONOBOUI',
+);
 
 
 # now we're ready to start creating the makefile.
@@ -115,17 +89,17 @@ close VERSION;
 # the Glib extension, and to save config information for other modules which
 # will chain from this one.
 
-my $gnome2 = ExtUtils::Depends->new ('Gnome2', 'Gtk2', 'Glib', 'Gnome2::VFS');
+our $gnome2 = ExtUtils::Depends->new ('Gnome2', 'Gnome2::Canvas', 'Gnome2::VFS');
 $gnome2->set_inc ($libgnomeui_pkgcfg{cflags} . " " . $libbonoboui_pkgcfg{cflags});
 $gnome2->set_libs ($libgnomeui_pkgcfg{libs} . " " . $libbonoboui_pkgcfg{libs});
 $gnome2->add_xs (@xs_files);
 $gnome2->add_pm ('Gnome2.pm' => '$(INST_LIBDIR)/Gnome2.pm');
 $gnome2->add_typemaps (map {File::Spec->catfile(cwd(), $_)} 'build/gnome2perl.typemap', 'gnome.typemap');
-$gnome2->add_headers ('gnome2perl.h');
 
 $gnome2->install (qw(gnome2perl.h
                      build/gnome2perl-autogen.h
-                     build/gnome2perl-version.h));
+                     build/gnome2perl-versions.h
+                     doctypes));
 $gnome2->save_config ('build/IFiles.pm');
 
 WriteMakefile(
@@ -137,14 +111,14 @@ WriteMakefile(
     $gnome2->get_makefile_vars,
 );
 
-package MY;
-
-sub postamble
-{
+sub MY::postamble {
 	return Glib::MakeHelper->postamble_clean ()
-	     . Glib::MakeHelper->postamble_docs (@main::xs_files)
+	     . Glib::MakeHelper->postamble_docs_full (
+			DEPENDS => $main::gnome2,
+			DOCTYPES => 'doctypes',
+			COPYRIGHT_FROM => 'copyright.pod'
+	       )
 	     . Glib::MakeHelper->postamble_rpms (
-			'GNOME_RUN' => $runtime_reqs{'Gnome'},
 			'GNOME' => $build_reqs{'Gnome'},
 			'PERL_EXTUTILS_DEPENDS' => 
 				$build_reqs{'perl-ExtUtils-Depends'},
@@ -152,6 +126,7 @@ sub postamble
 				$build_reqs{'perl-ExtUtils-PkgConfig'},
 			'PERL_GLIB' => $build_reqs{'perl-Glib'},
 			'PERL_GTK' => $build_reqs{'perl-Gtk2'},
+			'PERL_GNOME_CANVAS' => $build_reqs{'perl-Gnome2-Canvas'},
+			'PERL_GNOME_VFS' => $build_reqs{'perl-Gnome2-VFS'},
 		);
 }
-package MAIN;

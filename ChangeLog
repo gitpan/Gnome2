@@ -1,3 +1,236 @@
+2004/03/29 19:55 (+0200) kaffeetisch
+
+	* Gnome2.pm
+	* Makefile.PL
+	* NEWS
+	* README: Version 1.00.
+
+	* t/GnomeConfig.t
+	* t/GnomeEntry.t
+	* t/GnomeIconEntry.t
+	* t/GnomePasswordDialog.t
+	* xs/Gnome2.xs
+	* xs/GnomeHelp.xs
+	* xs/GnomeIconEntry.xs
+	* xs/GnomePasswordDialog.xs
+	* xs/GnomeURL.xs: Refer to stable releases only.
+
+2004/03/11 16:17 (+0100) kaffeetisch
+
+	* Gnome2.pm
+	* Makefile.PL
+	* NEWS
+	* README: Version 0.94.
+
+	* Gnome2.pm: Provide an import() implementation that relays
+	everything to UNIVERSAL::VERSION to make version checking work.
+
+	* xs/GnomeHelp.xs
+	* xs/GnomeURL.xs: Use the new __gerror__ keyword to mark those
+	functions that may croak on error.
+
+2004/03/02 05:06 (+0100) kaffeetisch
+
+	* Gnome2.pm: Document the recent API changes.
+
+	A NEWS
+	* Gnome2.pm
+	* MANIFEST
+	* README: Version 0.93.
+
+2004/03/02 04:34 (+0100) kaffeetisch
+
+	* xs/GnomeApp.xs
+	* xs/GnomeAppHelper.xs
+	* xs/GnomeClient.xs
+	* xs/GnomeConfig.xs
+	* xs/GnomeDruid.xs
+	* xs/GnomeInit.xs
+	* xs/GnomeModuleInfo.xs
+	* xs/GnomeUIDefs.xs: Rearrange ALIAS sections to avoid unneeded
+	xsubs.
+
+2004/03/02 03:35 (+0100) kaffeetisch
+
+	* t/GnomeConfig.t
+	* t/GnomeEntry.t
+	* t/GnomeIconEntry.t
+	* t/GnomeIconTheme.t
+	* t/GnomePasswordDialog.t
+	* t/GnomeThumbnail.t
+	* xs/Gnome2.xs: Stick to the new version information policy:
+	Uppercase names for compile time related functions.
+
+	* xs/GnomeAppHelper.xs: Don't use ALIAS 0 as a way to override an
+	xsub's name.  Do it properly instead.
+
+	* xs/GnomeClient.xs: Free the return value of
+	gnome_client_get_global_config_prefix.
+
+	* xs/GnomeConfig.xs: Remove a now invalid FIXME comment.
+
+	* maps
+	* t/GnomePasswordDialog.t
+	* xs/GnomePasswordDialog.xs: Bind and test API that was added in
+	2.5.1: set_show_username, set_show_domain, set_show_password,
+	set_domain, set_readonly_domain, set_show_remember, set_remember,
+	get_remember, and get_domain.
+
+	* t/GnomePopupMenu.t
+	* xs/GnomePopupMenu.xs: Change the binding for
+	gnome_popup_menu_append to Gtk2::Menu::append_from.  This is
+	necessary to avoid a collision with gtk_menu_append.  Applications
+	using Gtk2::Menu::append and expecting to get
+	gnome_popup_menu_append will have to be changed.
+
+2004/02/15 13:32 (-0500) rwmcfa1
+
+	* Makefile.PL, perl-Gnome2.spec.in: fixed some of the dependancies, 
+	added Gnome2-VFS, Gnome2-Canvas to the spec file and the postable_rpms.
+
+2004/02/12 19:55 (+0100) kaffeetisch
+
+	* Gnome2.pm
+	* Makefile.PL
+	* README: Version 0.92.
+
+2004/02/12 19:21 (+0100) kaffeetisch
+
+	* t/GnomeIconTheme.t: Only test if get_search_path returned
+	something defined.
+
+	* t/GnomeProgram.t: Use properties that are not construct-only to
+	work around the problem for now.
+
+	* t/GnomePopupMenu.t
+	* xs/GnomePopupMenu.xs: Change the binding for
+	gnome_popup_menu_attach to Gtk2::Menu::attach_to.
+
+2004/02/11 02:02 (+0100) kaffeetisch
+
+	* Makefile.PL
+	* xs/GnomeProgram.xs
+	* t/GnomeProgram.t: Use and test the new GPerlArgv helper.
+
+2004/02/10 19:01 (+0100) kaffeetisch
+
+	* t/GnomeConfig.t: Re-enable the get_float_with_default test, with
+	skips.  The relevant bug has been fixed in libgnomeui 2.5.4.
+
+	* t/GnomeIconSelection.t: Don't check the return value of
+	get_icon, there seems to be no way to predict it.
+
+2004/02/10 17:01 (+0100) kaffeetisch
+
+	Applying a patch from muppet.
+
+	A copyright.pod
+	A doctypes
+	* MANIFEST
+	* Makefile.PL
+	* gnome2perl.h: Use the new features of ExtUtils::Depends and
+	ExtUtils::PkgConfig.  Depend on Gnome2::Canvas.  Use
+	'gnome2perl-versions.h' for the version macros.
+
+2004/01/27 19:40 (+0100) kaffeetisch
+
+	* t/GnomeClient: Use the correct
+	Gnome2::Client->interaction_key_return syntax.
+
+	* xs/GnomeAppHelper.xs: Mark ix unused in some places.
+
+	* xs/GnomeClient.xs
+	* xs/GnomeUtil.xs: Avoid creating two xsubs with ALIAS when we
+	really only want one.
+
+	* gnome2perl.h
+	* xs/GnomeWindow.xs: Remove some apparently unneeded #include's.
+
+2004/01/26 01:47 (-0500) muppetman
+
+	* xs/GnomeWindow.xs: bad muppet, that should've been
+	#undef GNOME_DISABLE_DEPRECATED.
+
+2004/01/25 23:26 (-0500) muppetman
+
+	* xs/GnomeClient.xs, xs/GnomeUtil.xs: hush unused var warnings
+
+	* xs/GnomeWindow.xs: #define GNOME_DISABLE_DEPRECATED, so
+	gnome_window_toplevel_set_title() is defined at compile time.  (it
+	was deprecated in october of '03.)
+
+2004/01/24 21:44 (-0500) rwmcfa1
+
+	* Makefile.PL: removed runtime_reqs stuff, replaced by the pkg-config 
+	trick
+	
+	* perl-Gnome2.spec.in: use pkg-config for Requires version
+
+2004/01/14 18:16 (-0500) muppetman
+
+	* t/GnomePasswordDialog.t: GnomePasswordDialog and
+	GnomeAuthenticationManager didn't appear until 2.3.6, use version
+	guards to skip tests on older releases.
+
+2003/12/31 11:45 (+0100) kaffeetisch
+
+	* xs/BonoboDockItem.xs: Remove functions that weren't supposed to
+	be bound in the first place (namely set_lock, detach, attach,
+	unfloat, grab_pointer, drag_floating, handle_size_request,
+	get_floating_position, and get_grip).  That also hushes compiler
+	warnings.  Thanks to muppet for catching this.
+
+2003/12/31 02:10 (-0500) muppetman
+
+	more warnings fixes:
+
+	* xs/GnomeApp.xs, xs/GnomeConfig.xs, xs/GnomeDruid.xs,
+	xs/GnomeInit.xs, xs/GnomeModuleInfo.xs, xs/GnomeUIDefs.xs:
+	don't let RETVAL be used uninitialized in alias switches.
+
+	* xs/Gnome2.xs: mark ax unused in functions which don't touch the
+	input stack, to hush compiler warnings
+
+	* xs/GnomeScore.xs: return type on PPCODE xsubs must be void.
+
+2003/12/29 16:32 (-0500) rwmcfa1
+
+	* perl-Gnome2.spec.in: use the new DATE replacement in conjunction with
+	VERSION to create the changlog on the fly, which is better.
+
+2003/12/22 23:54 (-0500) muppetman
+
+	* xs/GnomeConfig.xs: initialize variables to avoid 'may be used
+	uninitialized' warnings in functions with alias switches.  it's not
+	likely that we'll trigger them, but it's nice to shut them up.
+
+2003/12/22 18:07 (-0500) rwmcfa1
+
+	* Makefile.PL: removed a type-o do_pod_files.
+
+2003/12/20 19:58 (+0100) kaffeetisch
+
+	* t/GnomeConfig.t: Add a TODO comment about a bug in libgnome.
+
+2003/12/19 18:18 (+0100) kaffeetisch
+
+	* gnome2perl.h
+	* xs/GnomeHelp.xs
+	* xs/GnomeURL.xs: Rename SvGnomeCharArray to SvEnvArray and move
+	it to Gnome2-VFS.
+
+2003/12/18 22:13 (+0100) kaffeetisch
+
+	* Gnome2.pm: Mention Gnome2::index.
+
+2003/12/16 00:02 (+0100) kaffeetisch
+
+	* xs/GnomeConfig.xs
+	* xs/GnomeI18N.xs
+	* xs/GnomeIconLookup.xs
+	* xs/GnomeIconTheme.xs
+	* xs/GnomeProgram.xs: Add API documentation.
+
 2003/12/15 01:12 (+0100) kaffeetisch
 
 	A t/TestBoilerplate

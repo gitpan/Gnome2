@@ -15,13 +15,18 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeI18N.xs,v 1.3 2003/11/07 18:46:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeI18N.xs,v 1.4 2003/12/15 23:05:06 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
 
 MODULE = Gnome2::I18N	PACKAGE = Gnome2::I18N	PREFIX = gnome_i18n_
 
+=for apidoc
+
+Returns a list of languages.
+
+=cut
 ##  const GList * gnome_i18n_get_language_list (const gchar *category_name)
 void
 gnome_i18n_get_language_list (class, category_name=NULL)

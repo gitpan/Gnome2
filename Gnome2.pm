@@ -1,4 +1,4 @@
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.23 2003/12/15 00:17:20 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.28 2004/03/29 18:04:31 kaffeetisch Exp $
 
 package Gnome2;
 
@@ -13,11 +13,16 @@ require DynaLoader;
 
 our @ISA = qw(DynaLoader);
 
-our $VERSION = '0.90';
+our $VERSION = '1.00';
+
+sub import {
+  my $self = shift();
+  $self -> VERSION(@_);
+}
 
 sub dl_load_flags { 0x01 }
 
-bootstrap Gnome2 $VERSION;
+Gnome2 -> bootstrap($VERSION);
 
 # Preloaded methods go here.
 
@@ -55,6 +60,9 @@ and
   http://developer.gnome.org/doc/API/2.0/libgnomeui/index.html
 
 is the canonical reference.
+
+In addition to that, there's also the automatically generated API
+documentation: L<Gnome2::index>(3pm).
 
 The mapping described in L<Gtk2::api>(3pm) also applies to this module.
 
@@ -112,6 +120,16 @@ Use gnome_app_insert_menus instead.
 Gnome2::Program->get has been renamed to ->get_program to avoid a clash with
 GObject->get.
 
+=item gnome_popup_menu_attach
+
+Gtk2::Menu->attach has been renamed to ->attach_to to avoid a clash with
+gtk_menu_attach.
+
+=item gnome_popup_menu_append
+
+Gtk2::Menu->append has been renamed to ->append_from to avoid a clash with
+gtk_menu_shell_append.
+
 =back
 
 =head1 DIFFERENT CALL SIGNATURES OR SEMANTICS
@@ -139,7 +157,8 @@ parameters.
 
 =head1 SEE ALSO
 
-L<perl>(1), L<Glib>(3pm), L<Gtk2>(3pm), L<Gtk2::api>(3pm).
+L<perl>(1), L<Gnome2::index>(3pm), L<Glib>(3pm), L<Gtk2>(3pm),
+L<Gtk2::api>(3pm).
 
 =head1 AUTHOR
 

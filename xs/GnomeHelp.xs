@@ -15,41 +15,15 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeHelp.xs,v 1.7 2003/12/09 20:50:22 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeHelp.xs,v 1.10 2004/03/29 18:04:59 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
 
-/* ------------------------------------------------------------------------- */
-
-char **SvGnomeCharArray (SV *ref)
-{
-	char **result = NULL;
-
-	if (SvOK (ref))
-		if (SvRV (ref) && SvTYPE (SvRV (ref)) == SVt_PVAV) {
-			AV *array = (AV *) SvRV (ref);
-			SV **string;
-
-			int i, length = av_len (array);
-			result = g_new0 (char *, length + 2);
-
-			for (i = 0; i <= length; i++)
-				if ((string = av_fetch (array, i, 0)) && SvOK (*string))
-					result[i] = SvPV_nolen (*string);
-
-			result[length + 1] = NULL;
-		}
-		else
-			croak ("the environment parameter must be an array reference");
-
-	return result;
-}
-
-/* ------------------------------------------------------------------------- */
-
 MODULE = Gnome2::Help	PACKAGE = Gnome2::Help	PREFIX = gnome_help_
 
+=for apidoc __gerror__
+=cut
 ##  gboolean gnome_help_display (const char *file_name, const char *link_id, GError **error) 
 gboolean
 gnome_help_display (class, file_name, link_id=NULL)
@@ -107,6 +81,8 @@ gnome_help_display (class, file_name, link_id=NULL)
 #	char **envp
 #	GError **error
 
+=for apidoc __gerror__
+=cut
 ##  gboolean gnome_help_display_desktop (GnomeProgram *program, const char *doc_id, const char *file_name, const char *link_id, GError **error) 
 gboolean
 gnome_help_display_desktop (class, program, doc_id, file_name, link_id=NULL)
@@ -123,8 +99,10 @@ gnome_help_display_desktop (class, program, doc_id, file_name, link_id=NULL)
     OUTPUT:
 	RETVAL
 
-#if LIBGNOME_CHECK_VERSION (2,1,1)
+#if LIBGNOME_CHECK_VERSION (2, 2, 0)
 
+=for apidoc __gerror__
+=cut
 ##  gboolean gnome_help_display_desktop_with_env (GnomeProgram *program, const char *doc_id, const char *file_name, const char *link_id, char **envp, GError **error) 
 gboolean
 gnome_help_display_desktop_with_env (class, program, doc_id, file_name, link_id, env_ref)
@@ -137,7 +115,7 @@ gnome_help_display_desktop_with_env (class, program, doc_id, file_name, link_id,
 	char **envp;
 	GError *error = NULL;
     CODE:
-	envp = SvGnomeCharArray (env_ref);
+	envp = SvEnvArray (env_ref);
 
 	RETVAL = gnome_help_display_desktop_with_env (program, doc_id, file_name, link_id, envp, &error);
 	if (!RETVAL)

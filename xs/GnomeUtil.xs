@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeUtil.xs,v 1.6 2003/11/12 21:15:00 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeUtil.xs,v 1.8 2004/01/27 18:47:29 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -23,12 +23,12 @@
 MODULE = Gnome2::Util	PACKAGE = Gnome2::Util	PREFIX = gnome_util_
 
 const char *
-g_extension_pointer (class, path)
+gnome_util_extension (class, path)
 	const char *path
-    ALIAS:
-	extension = 0
-    C_ARGS:
-	path
+    CODE:
+	RETVAL = g_extension_pointer (path);
+    OUTPUT:
+	RETVAL
 
 gchar_own *
 gnome_util_prepend_user_home (class, file)

@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconTheme.xs,v 1.15 2003/11/30 14:19:32 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconTheme.xs,v 1.16 2003/12/15 23:05:06 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -133,11 +133,15 @@ gnome_icon_theme_new (class)
     C_ARGS:
 	/* void */
 
+=for apidoc
+
+=for arg ... of paths
+
+=cut
 ##  void gnome_icon_theme_set_search_path (GnomeIconTheme *theme, const char *path[], int n_elements) 
 void
-gnome_icon_theme_set_search_path (theme, first_path, ...)
+gnome_icon_theme_set_search_path (theme, ...)
 	GnomeIconTheme *theme
-	const char* first_path
     PREINIT:
 	int i;
 	const char **path = NULL;
@@ -149,6 +153,11 @@ gnome_icon_theme_set_search_path (theme, first_path, ...)
 
 	gnome_icon_theme_set_search_path (theme, path, i - 1);
 
+=for apidoc
+
+Returns a list of paths.
+
+=cut
 ##  void gnome_icon_theme_get_search_path (GnomeIconTheme *theme, char **path[], int *n_elements) 
 void
 gnome_icon_theme_get_search_path (theme)
@@ -231,6 +240,11 @@ gnome_icon_theme_has_icon (theme, icon_name)
 	GnomeIconTheme *theme
 	const char *icon_name
 
+=for apidoc
+
+Returns a list of icons.
+
+=cut
 ##  GList * gnome_icon_theme_list_icons (GnomeIconTheme *theme, const char *context) 
 void
 gnome_icon_theme_list_icons (theme, context=NULL)

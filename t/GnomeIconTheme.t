@@ -7,7 +7,7 @@ use Test::More tests => TESTS;
 
 Gnome2::VFS -> init();
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconTheme.t,v 1.13 2003/12/15 00:17:24 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconTheme.t,v 1.15 2004/03/02 02:37:33 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -16,7 +16,7 @@ SKIP: {
   do "t/TestBoilerplate";
 
   skip("GnomeIconTheme is new in 2.0.6", TESTS)
-    unless (Gnome2 -> check_version(2, 0, 6));
+    unless (Gnome2 -> CHECK_VERSION(2, 0, 6));
 
   #############################################################################
 
@@ -61,7 +61,7 @@ SKIP: {
   $theme -> append_search_path("/usr/share/pixmaps");
   $theme -> prepend_search_path("/usr/share/images");
 
-  is($theme -> get_search_path(), "/usr/share/icons");
+  ok(defined($theme -> get_search_path()));
 
   $theme -> set_custom_theme("Crux");
 }

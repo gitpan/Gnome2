@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/gnome2perl.h,v 1.14 2003/12/13 21:36:22 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/gnome2perl.h,v 1.17 2004/02/10 16:00:36 kaffeetisch Exp $
  */
 
 #ifndef _GNOME2PERL_H_
@@ -29,12 +29,9 @@
 #include <gnome.h>
 #include <libgnome/libgnometypebuiltins.h>
 
-#include <libbonobo.h>
 #include <libbonoboui.h>
-#include <bonobo/bonobo-dock.h>
-#include <bonobo/bonobo-dock-item.h>
 
-#include "gnome2perl-version.h"
+#include "gnome2perl-versions.h"
 #include "gnome2perl-autogen.h"
 
 GnomeUIInfo *SvGnomeUIInfo (SV *sv);
@@ -43,7 +40,5 @@ void gnome2perl_parse_uiinfo_sv (SV * sv, GnomeUIInfo * info);
 GnomeUIInfo * gnome2perl_svrv_to_uiinfo_tree (SV* sv, char * name);
 void gnome2perl_refill_infos (SV *data, GnomeUIInfo *infos);
 void gnome2perl_refill_infos_popup (SV *data, GnomeUIInfo *info);
-
-char **SvGnomeCharArray (SV *ref);
 
 #endif /* _GNOME2PERL_H_ */

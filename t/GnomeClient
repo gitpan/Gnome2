@@ -3,7 +3,7 @@ use strict;
 use Test::More tests => 1;
 use Gnome2;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeClient,v 1.3 2003/09/26 14:33:17 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeClient,v 1.4 2003/11/02 19:46:49 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -79,7 +79,7 @@ SKIP: {
     $client -> save_any_dialog(Gtk2::Dialog -> new());
     $client -> save_error_dialog(Gtk2::Dialog -> new());
 
-    # XXX
+    # FIXME
     $client -> request_interaction("error", sub {
       my ($client, $key, $dialog_type);
 

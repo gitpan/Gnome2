@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeApp.xs,v 1.4 2003/09/21 01:27:03 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeApp.xs,v 1.7 2003/11/07 18:46:15 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -27,26 +26,26 @@ SV *
 members (app)
 	GnomeApp *app
     ALIAS:
-	Gnome2::App::prefix = 1
-	Gnome2::App::dock = 2
-	Gnome2::App::statusbar = 3
-	Gnome2::App::vbox = 4
-	Gnome2::App::menubar = 5
-	Gnome2::App::contents = 6
-	Gnome2::App::layout = 7
-	Gnome2::App::accel_group = 8
-	Gnome2::App::get_enable_layout_config = 9
+	Gnome2::App::prefix = 0
+	Gnome2::App::dock = 1
+	Gnome2::App::statusbar = 2
+	Gnome2::App::vbox = 3
+	Gnome2::App::menubar = 4
+	Gnome2::App::contents = 5
+	Gnome2::App::layout = 6
+	Gnome2::App::accel_group = 7
+	Gnome2::App::get_enable_layout_config = 8
     CODE:
 	switch (ix) {
-		case 1: RETVAL = newSVGChar (app->prefix); break;
-		case 2: RETVAL = newSVGtkWidget (app->dock); break;
-		case 3: RETVAL = newSVGtkWidget (app->statusbar); break;
-		case 4: RETVAL = newSVGtkWidget (app->vbox); break;
-		case 5: RETVAL = newSVGtkWidget (app->menubar); break;
-		case 6: RETVAL = newSVGtkWidget (app->contents); break;
-		case 7: RETVAL = newSVBonoboDockLayout (app->layout); break;
-		case 8: RETVAL = newSVGtkAccelGroup (app->accel_group); break;
-		case 9: RETVAL = newSVuv (app->enable_layout_config); break;
+		case 0: RETVAL = newSVGChar (app->prefix); break;
+		case 1: RETVAL = newSVGtkWidget (app->dock); break;
+		case 2: RETVAL = newSVGtkWidget (app->statusbar); break;
+		case 3: RETVAL = newSVGtkWidget (app->vbox); break;
+		case 4: RETVAL = newSVGtkWidget (app->menubar); break;
+		case 5: RETVAL = newSVGtkWidget (app->contents); break;
+		case 6: RETVAL = newSVBonoboDockLayout (app->layout); break;
+		case 7: RETVAL = newSVGtkAccelGroup (app->accel_group); break;
+		case 8: RETVAL = newSVuv (app->enable_layout_config); break;
 	}
     OUTPUT:
 	RETVAL
@@ -54,7 +53,9 @@ members (app)
 ## Create a new (empty) application window.  You must specify the application's
 ## name (used internally as an identifier).  The window title can be left as
 ## NULL, in which case the window's title will not be set.
-GtkWidget *gnome_app_new (SV * class, const gchar *appname, const gchar *title=NULL)
+GtkWidget *gnome_app_new (class, appname, title=NULL)
+	const gchar *appname
+	const gchar *title
     C_ARGS:
 	appname, title
 

@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 3;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconEntry.t,v 1.4 2003/09/26 14:33:17 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconEntry.t,v 1.5 2003/11/01 12:23:21 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -35,5 +35,5 @@ SKIP: {
   ok(not defined($entry -> pick_dialog()));
 
   $entry -> set_max_saved(23)
-    if (join("", Gnome2 -> get_version_info()) >= 233);
+    if (Gnome2 -> check_version(2, 3, 3));
 }

@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeThumbnail.xs,v 1.2 2003/09/21 04:27:00 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeThumbnail.xs,v 1.5 2003/11/21 08:09:23 muppetman Exp $
  */
 
 #include "gnome2perl.h"
@@ -28,7 +27,6 @@ MODULE = Gnome2::Thumbnail	PACKAGE = Gnome2::ThumbnailFactory	PREFIX = gnome_thu
 ##  GnomeThumbnailFactory *gnome_thumbnail_factory_new (GnomeThumbnailSize size) 
 GnomeThumbnailFactory *
 gnome_thumbnail_factory_new (class, size)
-	SV * class
 	GnomeThumbnailSize size
     C_ARGS:
 	size
@@ -79,6 +77,9 @@ gnome_thumbnail_factory_create_failed_thumbnail (factory, uri, mtime)
 
 MODULE = Gnome2::Thumbnail	PACKAGE = Gtk2::Gdk::Pixbuf	PREFIX = gnome_thumbnail_
 
+=for object Gnome2::Thumbnail
+=cut
+
 ##  gboolean gnome_thumbnail_has_uri (GdkPixbuf *pixbuf, const char *uri) 
 gboolean
 gnome_thumbnail_has_uri (pixbuf, uri)
@@ -95,7 +96,6 @@ gnome_thumbnail_is_valid (pixbuf, uri, mtime)
 ##  char * gnome_thumbnail_md5 (const char *uri) 
 char *
 gnome_thumbnail_md5 (class, uri)
-	SV * class
 	const char *uri
     C_ARGS:
 	uri
@@ -103,7 +103,6 @@ gnome_thumbnail_md5 (class, uri)
 ##  char * gnome_thumbnail_path_for_uri (const char *uri, GnomeThumbnailSize size) 
 char *
 gnome_thumbnail_path_for_uri (class, uri, size)
-	SV * class
 	const char *uri
 	GnomeThumbnailSize size
     C_ARGS:

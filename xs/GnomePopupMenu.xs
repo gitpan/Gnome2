@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomePopupMenu.xs,v 1.2 2003/09/21 01:31:53 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomePopupMenu.xs,v 1.5 2003/11/21 08:09:23 muppetman Exp $
  */
 
 #include "gnome2perl.h"
@@ -33,7 +32,6 @@ MODULE = Gnome2::PopupMenu	PACKAGE = Gnome2::PopupMenu	PREFIX = gnome_popup_menu
 ##  GtkWidget *gnome_popup_menu_new_with_accelgroup (GnomeUIInfo *uiinfo, GtkAccelGroup *accelgroup) 
 GtkWidget *
 gnome_popup_menu_new (class, uiinfo, accelgroup=NULL)
-	SV * class
 	GnomeUIInfo *uiinfo
 	GtkAccelGroup *accelgroup
     ALIAS:
@@ -48,6 +46,9 @@ gnome_popup_menu_new (class, uiinfo, accelgroup=NULL)
 	RETVAL
 
 MODULE = Gnome2::PopupMenu	PACKAGE = Gtk2::Menu	PREFIX = gnome_popup_menu_
+
+=for object Gnome2::PopupMenu
+=cut
 
 ## same as gtk_menu_get_accel_group
 ##  GtkAccelGroup *gnome_popup_menu_get_accel_group(GtkMenu *menu) 
@@ -152,6 +153,9 @@ gnome_popup_menu_append (popup, uiinfo)
 	GnomeUIInfo *uiinfo
 
 MODULE = Gnome2::PopupMenu	PACKAGE = Gtk2::Widget	PREFIX = gnome_gtk_widget_
+
+=for object Gnome2::PopupMenu
+=cut
 
 ##  void gnome_gtk_widget_add_popup_items (GtkWidget *widget, GnomeUIInfo *uiinfo, gpointer user_data) 
 void

@@ -2,10 +2,12 @@
 use strict;
 use Gnome2;
 
-use constant TESTS => 7;
+use constant TESTS => 9;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconTheme.t,v 1.7 2003/09/26 14:33:17 kaffeetisch Exp $
+Gnome2::VFS -> init();
+
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconTheme.t,v 1.12 2003/11/24 23:14:55 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -19,20 +21,30 @@ SKIP: {
   skip("Couldn't connect to the session manager.", TESTS)
     unless (Gnome2::Client -> new() -> connected());
 
-  skip("GnomeIconTheme is new in 2.0.6", 7)
-    unless (join("", Gnome2 -> get_version_info()) >= 206);
+  skip("GnomeIconTheme is new in 2.0.6", TESTS)
+    unless (Gnome2 -> check_version(2, 0, 6));
 
   #############################################################################
 
   my $theme = Gnome2::IconTheme -> new();
   isa_ok($theme, "Gnome2::IconTheme");
 
-  # XXX: $theme -> get_example_icon_name();
+  # FIXME: $theme -> get_example_icon_name();
 
   my @icon = $theme -> lookup_sync(undef, "/usr/bin/perl", undef, "none");
-  ok( scalar(@icon) == 2 and defined($icon[0]) );
+  ok(scalar(@icon) == 2 and defined($icon[0]));
 
-  # XXX: $theme -> list_icons("gnome-unknown");
+  my ($result, $info) = Gnome2::VFS -> get_file_info("/usr/bin/perl", "get-mime-type");
+
+  @icon = $theme -> lookup(undef,
+                           "/usr/bin/perl",
+                           undef,
+                           $info,
+                           "application/x-executable-binary",
+                           "none");
+  ok(scalar(@icon) == 2 and defined($icon[0]));
+
+  ok($theme -> list_icons());
 
   is($theme -> has_icon("gnome-unknown"), 1);
 
@@ -41,7 +53,7 @@ SKIP: {
       $size) = $theme -> lookup_icon("gnome-starthere", 48);
 
   ok(-e $file);
-  # XXX: $icon_data?
+  # FIXME: $icon_data?
   like($size, qr/^\d+$/);
 
   $theme -> set_allow_svg(1);
@@ -51,7 +63,7 @@ SKIP: {
 
   $theme -> set_search_path("/usr/share/icons");
 
-  # XXX: these seem to do nothing.
+  # FIXME: these seem to do nothing.
   $theme -> append_search_path("/usr/share/pixmaps");
   $theme -> prepend_search_path("/usr/share/images");
 
@@ -59,3 +71,7 @@ SKIP: {
 
   $theme -> set_custom_theme("Crux");
 }
+
+###############################################################################
+
+Gnome2::VFS -> shutdown();

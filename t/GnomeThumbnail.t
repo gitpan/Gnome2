@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 2;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeThumbnail.t,v 1.5 2003/09/29 14:48:34 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeThumbnail.t,v 1.7 2003/11/02 19:46:49 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -20,7 +20,7 @@ SKIP: {
     unless (Gnome2::Client -> new() -> connected());
 
   skip("GnomeThumbnail is new in 2.0.6", 2)
-    unless (join("", Gnome2 -> get_version_info()) >= 206);
+    unless (Gnome2 -> check_version(2, 0, 6));
 
   #############################################################################
 
@@ -41,7 +41,7 @@ SKIP: {
   $factory -> save_thumbnail($thumbnail, $uri, $mtime);
   $factory -> create_failed_thumbnail($uri, $mtime);
 
-  # XXX: why do these segfault?
+  # FIXME: why do these segfault?
   # $thumbnail -> has_uri($uri);
   # $thumbnail -> is_valid($uri, $mtime);
 

@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeDruid.xs,v 1.3 2003/05/22 16:10:20 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeDruid.xs,v 1.6 2003/11/15 11:16:15 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -46,9 +45,8 @@ buttons (druid)
 
 GtkWidget *
 gnome_druid_new (class)
-	SV * class
     C_ARGS:
-	
+	/* void */
 
 ## void gnome_druid_set_buttons_sensitive (GnomeDruid *druid, gboolean back_sensitive, gboolean next_sensitive, gboolean cancel_sensitive, gboolean help_sensitive) 
 void
@@ -96,10 +94,14 @@ gnome_druid_set_page (druid, page)
 	GnomeDruid *druid
 	GnomeDruidPage *page
 
+=for apidoc
+
+Returns a GnomeDruid and a GtkWindow.
+
+=cut
 ## GtkWidget * gnome_druid_new_with_window (const char *title, GtkWindow *parent, gboolean close_on_cancel, GtkWidget **window);
 void
 gnome_druid_new_with_window (class, title, parent, close_on_cancel)
-	SV * class
 	const char * title
 	GtkWindow_ornull * parent
 	gboolean close_on_cancel

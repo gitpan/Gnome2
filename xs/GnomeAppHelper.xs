@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeAppHelper.xs,v 1.6 2003/09/21 01:27:48 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeAppHelper.xs,v 1.14 2003/11/28 21:23:06 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -261,14 +260,95 @@ do_ui_signal_connect (GnomeUIInfo * uiinfo,
 
 MODULE = Gnome2::AppHelper	PACKAGE = Gnome2	PREFIX = gnome_
 
+=for object Gnome2::AppHelper
+
+=for apidoc
+
+=head1 GnomeUIInfo
+
+In Gnome2 GnomeUIInfo's are often used as a convenient way to create GUI's.  In
+Perl, GnomeUIInfo's are always references to arrays of items.  Items can either
+be references to hashs or references to arrays:
+
+=over
+
+=item Hash Reference
+
+When using hash references, items are specified by giving key-value pairs.  A
+typical example:
+
+  { type => "item", label => "Quit", callback => sub { exit(0); } }
+
+For the list of valid keys, see below.
+
+=item Array References
+
+When using array references, items are a list of the following keys, in this
+order:
+
+  type,
+  label,
+  hint,
+  moreinfo,
+  pixmap_type,
+  pixmap_info,
+  accelerator_key and
+  modifiers.
+
+The example from above would become:
+
+  [ "item", "Item", undef, sub { exit(0); },
+    undef, undef, undef, undef ]
+
+=back
+
+To create multi-level structures, you use the "subtree" type and the "subtree"
+key, as in the following example:
+
+  {
+    type => "subtree",
+    label => "Radio Items",
+    subtree => [
+      {
+        type => "radioitems",
+        moreinfo => [
+          {
+            type => "item",
+            label => "A"
+          },
+          {
+            type => "item",
+            label => "B"
+          },
+          {
+            type => "item",
+            label => "C"
+          },
+          {
+            type => "item",
+            label => "D"
+          },
+          {
+            type => "item",
+            label => "E"
+          }
+        ]
+      }
+    ]
+  }
+
+=cut
+
 ## void gnome_accelerators_sync (void) 
 void
 gnome_accelerators_sync (class)
-	SV * class
     C_ARGS:
 	/*void*/
 
 MODULE = Gnome2::AppHelper	PACKAGE = Gtk2::MenuShell	PREFIX = gnome_app_
+
+=for object Gnome2::AppHelper
+=cut
 
 ### void gnome_app_fill_menu (GtkMenuShell *menu_shell, GnomeUIInfo *uiinfo, GtkAccelGroup *accel_group, gboolean uline_accels, gint pos) 
 ### void gnome_app_fill_menu_with_data (GtkMenuShell *menu_shell, GnomeUIInfo *uiinfo, GtkAccelGroup *accel_group, gboolean uline_accels, gint pos, gpointer user_data) 
@@ -292,7 +372,11 @@ gnome_app_fill_menu (menu_shell, uiinfo, accel_group, uline_accels, pos)
 	                            accel_group, uline_accels, pos);
 	refill_infos (ST (1), uiinfo);
 
+=for apidoc
 
+Returns the GtkWidget and the position associated with the path.
+
+=cut
 ##  GtkWidget *gnome_app_find_menu_pos (GtkWidget *parent, const gchar *path, gint *pos)
 void
 gnome_app_find_menu_pos (parent, path)
@@ -308,6 +392,9 @@ gnome_app_find_menu_pos (parent, path)
 	PUSHs (sv_2mortal (newSViv (pos)));
 
 MODULE = Gnome2::AppHelper	PACKAGE = Gtk2::Toolbar	PREFIX = gnome_app_
+
+=for object Gnome2::AppHelper
+=cut
 
 ## void gnome_app_fill_toolbar (GtkToolbar *toolbar, GnomeUIInfo *uiinfo, GtkAccelGroup *accel_group) 
 ### void gnome_app_fill_toolbar_with_data (GtkToolbar *toolbar, GnomeUIInfo *uiinfo, GtkAccelGroup *accel_group, gpointer user_data) 
@@ -410,7 +497,6 @@ gnome_app_install_menu_hints (app, uiinfo)
 ## void gnome_app_setup_toolbar (GtkToolbar *toolbar, BonoboDockItem *dock_item) 
 void
 gnome_app_setup_toolbar (class, toolbar, dock_item)
-	SV *class
 	GtkToolbar *toolbar
 	BonoboDockItem *dock_item
     C_ARGS:
@@ -424,11 +510,14 @@ gnome_app_install_appbar_menu_hints (appbar, uiinfo)
 	GnomeAppBar* appbar
 	GnomeUIInfo* uiinfo
     ALIAS:
-	Gnome2::AppBar::install_menu_hints = 1
+	Gnome2::AppBar::install_menu_hints = 0
     C_ARGS:
 	appbar, uiinfo
 
 MODULE = Gnome2::AppHelper	PACKAGE = Gtk2::Statusbar	PREFIX = gnome_app_
+
+=for object Gnome2::AppHelper
+=cut
 
 ## void gnome_app_install_statusbar_menu_hints (GtkStatusbar* bar, GnomeUIInfo* uiinfo) 
 void
@@ -436,6 +525,6 @@ gnome_app_install_statusbar_menu_hints (bar, uiinfo)
 	GtkStatusbar* bar
 	GnomeUIInfo* uiinfo
     ALIAS:
-	Gtk2::Statusbar::install_menu_hints = 1
+	Gtk2::Statusbar::install_menu_hints = 0
     C_ARGS:
 	bar, uiinfo

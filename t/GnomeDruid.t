@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 16;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeDruid.t,v 1.4 2003/09/30 14:03:39 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeDruid.t,v 1.5 2003/11/02 19:46:49 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -82,7 +82,7 @@ SKIP: {
   $middle -> set_background(Gtk2::Gdk::Color -> new(0, 255, 0));
   $middle -> set_logo_background(Gtk2::Gdk::Color -> new(0, 0, 255));
   $middle -> set_title_foreground(Gtk2::Gdk::Color -> new(255, 255, 0));
-  # XXX: $middle -> set_contents_background(Gtk2::Gdk::Color -> new(255, 255, 0));
+  # FIXME: $middle -> set_contents_background(Gtk2::Gdk::Color -> new(255, 255, 0));
 
   $middle -> set_title("Schmuh");
 

@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 8;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconList.t,v 1.3 2003/09/26 14:33:17 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconList.t,v 1.6 2003/11/02 19:46:49 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -23,7 +23,7 @@ SKIP: {
 
   my $adjustment = Gtk2::Adjustment -> new(50, 0, 100, 5, 5, 20);
 
-  # XXX: flags ...
+  # FIXME: flags ...
   my $list =
     Gnome2::IconList -> new(23,
                             $adjustment,
@@ -58,7 +58,7 @@ SKIP: {
   is($list -> get_selection_mode(), "multiple");
 
   $list -> select_icon(1);
-  is($list -> get_selection(), 1);
+  is_deeply([$list -> get_selection()], [1]);
 
   $list -> unselect_icon(1);
   $list -> unselect_all();
@@ -72,11 +72,11 @@ SKIP: {
   $list -> set_icon_border(5);
   $list -> set_separators("--");
 
-  # XXX: why does moveto() yield a warning? why is $list not a Gtk2::Widget?
+  # FIXME: why does moveto() yield a warning? why is $list not a Gtk2::Widget?
   # $list -> moveto(1, 0.0);
   # is($list -> icon_is_visible(1), "none");
 
-  # XXX: need a window and a main loop for this.
+  # FIXME: need a window and a main loop for this.
   # is($list -> get_icon_at(20, 20), 1);
 
   like($list -> get_items_per_line(), qr/^\d+$/);
@@ -85,5 +85,10 @@ SKIP: {
 
   # isa_ok($list -> get_icon_pixbuf_item(1), "Gnome2::Canvas::Pixbuf");
 
-  $list -> clear();
+  # FIXME
+  # on rh8, with libgnomeui-2.0 version 2.0.3, this line causes the test
+  # to segfault and pop up the Gnome crash dialog when running under
+  # make test, but not when running directly from the terminal.  probably
+  # something strange going on with refcounts somewhere.  -mup
+  # $list -> clear();
 }

@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 7;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeProgram.t,v 1.3 2003/09/26 14:33:17 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeProgram.t,v 1.4 2003/11/02 19:46:49 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -20,7 +20,7 @@ SKIP: {
   Gnome2::Program -> module_register("libgnome");
   ok(Gnome2::Program -> module_registered("libgnome"));
 
-  # XXX
+  # FIXME
   # isa_ok(Gnome2::Program -> module_load("/usr/lib/libgnome-2.so"),
   #        "Gnome2::ModuleInfo");
 

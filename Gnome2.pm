@@ -1,6 +1,4 @@
-#
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.15 2003/10/03 20:29:51 muppetman Exp $
-#
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.22 2003/11/28 21:23:03 kaffeetisch Exp $
 
 package Gnome2;
 
@@ -9,12 +7,13 @@ use strict;
 use warnings;
 
 use Gtk2;
+use Gnome2::VFS;
 
 require DynaLoader;
 
 our @ISA = qw(DynaLoader);
 
-our $VERSION = '0.38';
+our $VERSION = '0.49';
 
 sub dl_load_flags { 0x01 }
 
@@ -28,7 +27,7 @@ __END__
 
 =head1 NAME
 
-Gnome2 - Perl interface to the 2.x series of the Gnome libraries
+Gnome2 - Perl interface to the 2.x series of the GNOME libraries
 
 =head1 SYNOPSIS
 
@@ -40,52 +39,132 @@ Gnome2 - Perl interface to the 2.x series of the Gnome libraries
 
 =head1 ABSTRACT
 
-  Perl bindings to the 2.x series of the Gtk+ widget set.
-  This module allows you to write graphical user interfaces in a perlish
-  and object-oriented way, freeing you from the casting and memory 
-  management in C, yet remaining very close in spirit to original API.
+Perl bindings to the 2.x series of the GNOME libraries.  This module allows you
+to interface with the libgnome and libgnomeui libraries to create GNOME
+applications.
 
 =head1 DESCRIPTION
 
-The Gnome2 module allows a perl developer to use the Gnome libraries.
-Find out more about Gnome+ at http://www.gnome.org.
+Since this module tries to stick very closely to the C API, the documentation
+found at
 
-To discuss gtk2-perl, ask questions and flame/praise the authors,
-join gtk-perl-list@gnome.org at lists.gnome.org.
+  http://developer.gnome.org/doc/API/2.0/libgnome/index.html
 
-If you have a web site set up for your module, mention it here.
+and
 
-FIXME we have no other documentation, but we probably need it.
+  http://developer.gnome.org/doc/API/2.0/libgnomeui/index.html
+
+is the canonical reference.
+
+The mapping described in L<Gtk2::api>(3pm) also applies to this module.
+
+To discuss this module, ask questions and flame/praise the authors, join
+gtk-perl-list@gnome.org at lists.gnome.org.
+
+=head1 MISSING METHODS
+
+=over
+
+=item gnome_app_fill_menu_with_data
+
+=item gnome_app_fill_menu_custom
+
+Use gnome_app_fill_menu instead.
+
+=item gnome_app_fill_toolbar_with_data
+
+=item gnome_app_fill_toolbar_custom
+
+Use gnome_app_fill_toolbar instead.
+
+=item gnome_app_create_menus_interp
+
+=item gnome_app_create_menus_with_data
+
+=item gnome_app_create_menus_custom
+
+Use gnome_app_create_menus instead.
+
+=item gnome_app_create_toolbar_interp
+
+=item gnome_app_create_toolbar_with_data
+
+=item gnome_app_create_toolbar_custom
+
+Use gnome_app_create_toolbar instead.
+
+=item gnome_app_insert_menus_custom
+
+=item gnome_app_insert_menus_with_data
+
+=item gnome_app_insert_menus_interp
+
+Use gnome_app_insert_menus instead.
+
+=back
+
+=head1 RENAMED METHODS
+
+=over
+
+=item gnome_program_get
+
+Gnome2::Program->get has been renamed to ->get_program to avoid a clash with
+GObject->get.
+
+=back
+
+=head1 DIFFERENT CALL SIGNATURES OR SEMANTICS
+
+=over
+
+=item gnome_client_set_restart_command
+
+=item gnome_client_set_discard_command
+
+=item gnome_client_set_resign_command
+
+=item gnome_client_set_shutdown_command
+
+=item gnome_client_set_clone_command
+
+Instead of argc and argv you simply pass in a list.
+
+=item gnome_program_init
+
+Gnome2::Program->init automagically fills argc and argv so just omit these
+parameters.
+
+=over
 
 =head1 SEE ALSO
 
-L<perl>(1), L<Glib>(3pm), L<Gtk2>(3pm).
+L<perl>(1), L<Glib>(3pm), L<Gtk2>(3pm), L<Gtk2::api>(3pm).
 
 =head1 AUTHOR
 
 muppet E<lt>scott at asofyet dot orgE<gt> did the initial stuff.
 
-Torsten Schoenfeld E<lt>kaffeetisch at web dot deE<gt> took over between
-0.34 and 0.36, and implemented lots of tests and missing functionality,
-and corrected several of muppet's mistakes.
+Torsten Schoenfeld E<lt>kaffeetisch at web dot deE<gt> took over between 0.34
+and 0.36, and implemented lots of tests and missing functionality, and
+corrected several of muppet's mistakes.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2003 by the gtk2-perl team.
+Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
 
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Library General Public
-License as published by the Free Software Foundation; either
-version 2 of the License, or (at your option) any later version.
+This library is free software; you can redistribute it and/or modify it under
+the terms of the GNU Lesser General Public License as published by the Free
+Software Foundation; either version 2.1 of the License, or (at your option) any
+later version.
 
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Library General Public License for more details.
+This library is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+details.
 
-You should have received a copy of the GNU Library General Public
-License along with this library; if not, write to the 
-Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
-Boston, MA  02111-1307  USA.
+You should have received a copy of the GNU Lesser General Public License along
+with this library; if not, write to the Free Software Foundation, Inc.,
+59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 =cut

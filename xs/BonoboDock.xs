@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/BonoboDock.xs,v 1.1 2003/09/21 01:17:06 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/BonoboDock.xs,v 1.4 2003/11/15 11:16:15 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -26,7 +25,6 @@ MODULE = Gnome2::Bonobo::Dock	PACKAGE = Gnome2::Bonobo::Dock	PREFIX = bonobo_doc
 ##  GtkWidget *bonobo_dock_new (void) 
 GtkWidget *
 bonobo_dock_new (class)
-	SV * class
     C_ARGS:
 	/* void */
 
@@ -67,6 +65,12 @@ GtkWidget *
 bonobo_dock_get_client_area (dock)
 	BonoboDock *dock
 
+=for apidoc
+
+Returns a BonoboDockItem, a BonoboDockPlacement and three unsigned integers
+correspoding to num_band, band_position and offset.
+
+=cut
 ##  BonoboDockItem *bonobo_dock_get_item_by_name (BonoboDock *dock, const gchar *name, BonoboDockPlacement *placement_return, guint *num_band_return, guint *band_position_return, guint *offset_return) 
 void
 bonobo_dock_get_item_by_name (dock, name)

@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconList.xs,v 1.3 2003/09/25 15:06:17 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconList.xs,v 1.9 2003/11/15 11:16:15 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -27,7 +26,6 @@ MODULE = Gnome2::IconList	PACKAGE = Gnome2::IconList	PREFIX = gnome_icon_list_
 ##  GtkWidget *gnome_icon_list_new (guint icon_width, GtkAdjustment *adj, int flags) 
 GtkWidget *
 gnome_icon_list_new (class, icon_width, adj, flags)
-	SV * class
 	guint icon_width
 	GtkAdjustment *adj
 	int flags
@@ -132,20 +130,22 @@ int
 gnome_icon_list_unselect_all (gil)
 	GnomeIconList *gil
 
+=for apidoc
+
+Returns a list of integers.
+
+=cut
 ##  GList * gnome_icon_list_get_selection (GnomeIconList *gil) 
 void
 gnome_icon_list_get_selection (gil)
 	GnomeIconList *gil
     PREINIT:
-	GList * list, * i;
+	GList *list = NULL;
     PPCODE:
 	list = gnome_icon_list_get_selection (gil);
-	if (!list)
-		XSRETURN_EMPTY;
-	for (i = list ; i != NULL ; i = i->next)
+	for (; list != NULL; list = list->next)
 		/* cast to avoid warning. */
-		XPUSHs (sv_2mortal (newSViv ((gint) i->data)));
-	g_list_free (list);
+		XPUSHs (sv_2mortal (newSViv ((gint) list->data)));
 
 ##  void gnome_icon_list_focus_icon (GnomeIconList *gil, gint idx) 
 void
@@ -190,7 +190,7 @@ gnome_icon_list_set_separators (gil, sep)
 	const char *sep
 
 ##  gchar * gnome_icon_list_get_icon_filename (GnomeIconList *gil, int idx) 
-gchar *
+gchar_own *
 gnome_icon_list_get_icon_filename (gil, idx)
 	GnomeIconList *gil
 	int idx
@@ -201,14 +201,13 @@ gnome_icon_list_find_icon_from_filename (gil, filename)
 	GnomeIconList *gil
 	const char *filename
 
-# FIXME: how to implement these?
 ###  void gnome_icon_list_set_icon_data (GnomeIconList *gil, int idx, gpointer data) 
 #void
 #gnome_icon_list_set_icon_data (gil, idx, data)
 #	 GnomeIconList *gil
 #	 int idx
 #	 gpointer data
-#
+
 ###  void gnome_icon_list_set_icon_data_full (GnomeIconList *gil, int pos, gpointer data, GDestroyNotify destroy) 
 #void
 #gnome_icon_list_set_icon_data_full (gil, pos, data, destroy)
@@ -216,13 +215,13 @@ gnome_icon_list_find_icon_from_filename (gil, filename)
 #	 int pos
 #	 gpointer data
 #	 GDestroyNotify destroy
-#
+
 ###  int gnome_icon_list_find_icon_from_data (GnomeIconList *gil, gpointer data) 
 #int
 #gnome_icon_list_find_icon_from_data (gil, data)
 #	 GnomeIconList *gil
 #	 gpointer data
-#
+
 ###  gpointer gnome_icon_list_get_icon_data (GnomeIconList *gil, int pos) 
 #gpointer
 #gnome_icon_list_get_icon_data (gil, pos)

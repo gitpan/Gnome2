@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeProgram.xs,v 1.10 2003/09/25 15:06:17 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeProgram.xs,v 1.16 2003/11/14 18:51:31 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -76,10 +75,14 @@ handle_argv (int * argc, char ** argv[])
 
 MODULE = Gnome2::Program	PACKAGE = Gnome2::Program	PREFIX = gnome_program_
 
+=for apidoc
+
+The list argument is for property-value pairs.
+
+=cut
 ##  GnomeProgram * gnome_program_init (const char *app_id, const char *app_version, const GnomeModuleInfo *module_info, int argc, char **argv, const char *first_property_name, ...) 
 GnomeProgram *
 gnome_program_init (class, app_id, app_version, module_info=NULL, ...)
-	SV * class
 	const char * app_id
 	const char * app_version
 	SV * module_info
@@ -144,7 +147,6 @@ gnome_program_init (class, app_id, app_version, module_info=NULL, ...)
 ##  GnomeProgram * gnome_program_get (void) 
 GnomeProgram_ornull *
 gnome_program_get_program (class)
-	SV * class
     CODE:
 	RETVAL = gnome_program_get ();
     OUTPUT:
@@ -168,17 +170,19 @@ gnome_program_locate_file (program, domain, file_name, only_if_exists)
 	const gchar *file_name
 	gboolean only_if_exists
     PREINIT:
-	gchar * path;
-	GSList * ret_locations = NULL, * i = NULL;
+	gchar *path;
+	GSList *i, *ret_locations = NULL;
     PPCODE:
 	path = gnome_program_locate_file (program, domain, file_name,
 	                                  only_if_exists, &ret_locations);
 
-	if (path)
+	if (path) {
 		XPUSHs (sv_2mortal (newSVGChar (path)));
+		g_free (path);
+	}
 
-	for (i = ret_locations; i != NULL ; i = i->next) {
-		XPUSHs (sv_2mortal (newSVGChar ((gchar*)i->data)));
+	for (i = ret_locations; i != NULL; i = i->next) {
+		XPUSHs (sv_2mortal (newSVGChar ((gchar *) i->data)));
 		g_free (i->data);
 	}
 
@@ -188,7 +192,6 @@ gnome_program_locate_file (program, domain, file_name, only_if_exists)
 ##  void gnome_program_module_register (const GnomeModuleInfo *module_info) 
 void
 gnome_program_module_register (class, module_info)
-	SV * class
 	SV * module_info
     PREINIT:
 	const GnomeModuleInfo * real_module_info = NULL;
@@ -200,7 +203,6 @@ gnome_program_module_register (class, module_info)
 ##  gboolean gnome_program_module_registered (const GnomeModuleInfo *module_info) 
 gboolean
 gnome_program_module_registered (class, module_info)
-	SV * class
 	SV * module_info
     PREINIT:
 	const GnomeModuleInfo * real_module_info = NULL;
@@ -214,7 +216,6 @@ gnome_program_module_registered (class, module_info)
 ##  const GnomeModuleInfo * gnome_program_module_load (const char * mod_name) 
 GnomeModuleInfo *
 gnome_program_module_load (class, mod_name)
-	SV * class
 	const char * mod_name
     CODE:
 	/* just to keep the compiler from complaining about const */

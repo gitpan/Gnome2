@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeClient.xs,v 1.5 2003/09/21 17:59:37 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeClient.xs,v 1.9 2003/11/14 18:51:31 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -58,7 +57,6 @@ connected (client)
 
 GnomeClient *
 gnome_client_master (class)
-	SV * class
     CODE:
 	RETVAL = gnome_master_client ();
     OUTPUT:
@@ -106,11 +104,11 @@ void
 set_commands (client, ...)
 	GnomeClient *client
     ALIAS:
-	Gnome2::Client::set_restart_command = 1
-	Gnome2::Client::set_discard_command = 2
-	Gnome2::Client::set_resign_command = 3
-	Gnome2::Client::set_shutdown_command = 4
-	Gnome2::Client::set_clone_command = 5
+	Gnome2::Client::set_restart_command = 0
+	Gnome2::Client::set_discard_command = 1
+	Gnome2::Client::set_resign_command = 2
+	Gnome2::Client::set_shutdown_command = 3
+	Gnome2::Client::set_clone_command = 4
     PREINIT:
 	gint argc, i;
 	gchar ** argv;
@@ -122,11 +120,11 @@ set_commands (client, ...)
 		argv[i - 1] = SvGChar (ST (i));
 
 	switch (ix) {
-		case 1: gnome_client_set_restart_command (client, argc, argv); break;
-		case 2: gnome_client_set_discard_command (client, argc, argv); break;
-		case 3: gnome_client_set_resign_command (client, argc, argv); break;
-		case 4: gnome_client_set_shutdown_command (client, argc, argv); break;
-		case 5: gnome_client_set_clone_command (client, argc, argv); break;
+		case 0: gnome_client_set_restart_command (client, argc, argv); break;
+		case 1: gnome_client_set_discard_command (client, argc, argv); break;
+		case 2: gnome_client_set_resign_command (client, argc, argv); break;
+		case 3: gnome_client_set_shutdown_command (client, argc, argv); break;
+		case 4: gnome_client_set_clone_command (client, argc, argv); break;
 	}
 
 	g_free (argv);
@@ -136,14 +134,10 @@ void
 gnome_client_add_static_arg (client, ...)
 	GnomeClient *client
     PREINIT:
-	gint i;
-	gchar ** argv;
+	int i;
     CODE:
-	argv = g_new0 (gchar*, items - 1);
 	for (i = 1; i < items; i++)
-		argv[i - 1] = SvGChar (ST (i));
-	gnome_client_add_static_arg (client, argv, NULL);
-	g_free (argv);
+		gnome_client_add_static_arg (client, SvGChar (ST (i)), NULL);
 
 ## void gnome_client_set_current_directory (GnomeClient *client, const gchar *dir) 
 void
@@ -200,15 +194,13 @@ gnome_client_flush (client)
 
 GnomeClient *
 gnome_client_new (class)
-	SV * class
     C_ARGS:
-	
+	/* void */
 
 GnomeClient *
 gnome_client_new_without_connection (class)
-	SV * class
     C_ARGS:
-	
+	/* void */
 
 ## void gnome_client_connect (GnomeClient *client) 
 void
@@ -261,9 +253,12 @@ gnome_client_request_interaction (client, dialog_type, function, data=NULL)
 	                        callback,
 	                        (GDestroyNotify) gperl_callback_destroy);
 
-# FIXME: needs renaming/aliasing.
 ## void gnome_interaction_key_return (gint key, gboolean cancel_shutdown) 
 void
-gnome_interaction_key_return (key, cancel_shutdown)
+gnome_interaction_key_return (class, key, cancel_shutdown)
 	gint key
 	gboolean cancel_shutdown
+    ALIAS:
+	Gnome2::Client::interaction_key_return = 0
+    C_ARGS:
+	key, cancel_shutdown

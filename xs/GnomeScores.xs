@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeScores.xs,v 1.2 2003/10/01 16:50:30 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeScores.xs,v 1.5 2003/11/07 18:46:15 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -26,7 +25,6 @@ MODULE = Gnome2::Scores	PACKAGE = Gnome2::Scores	PREFIX = gnome_scores_
 ##  GtkWidget * gnome_scores_display (const gchar *title, const gchar *app_name, const gchar *level, int pos) 
 GtkWidget *
 gnome_scores_display (class, title, app_name, level, pos)
-	SV * class
 	const gchar *title
 	const gchar *app_name
 	const gchar *level
@@ -37,7 +35,6 @@ gnome_scores_display (class, title, app_name, level, pos)
 ##  GtkWidget * gnome_scores_display_with_pixmap (const gchar *pixmap_logo, const gchar *app_name, const gchar *level, int pos) 
 GtkWidget *
 gnome_scores_display_with_pixmap (class, pixmap_logo, app_name, level, pos)
-	SV * class
 	const gchar *pixmap_logo
 	const gchar *app_name
 	const gchar *level
@@ -45,10 +42,18 @@ gnome_scores_display_with_pixmap (class, pixmap_logo, app_name, level, pos)
     C_ARGS:
 	pixmap_logo, app_name, level, pos
 
+=for apidoc
+
+=for arg names - reference to an array
+
+=for arg scores - reference to an array
+
+=for arg times - reference to an array
+
+=cut
 ##  GtkWidget* gnome_scores_new (guint n_scores, gchar **names, gfloat *scores, time_t *times, gboolean clear) 
 GtkWidget*
 gnome_scores_new (class, names, scores, times, clear)
-	SV * class
 	SV * names
 	SV * scores
 	SV * times

@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 3;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeEntry.t,v 1.5 2003/09/30 14:03:39 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeEntry.t,v 1.6 2003/11/01 12:23:21 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -32,7 +32,7 @@ SKIP: {
 
   SKIP: {
     skip("set_max_saved is new in 2.3.3", 1)
-      unless (join("", Gnome2 -> get_version_info()) >= 233);
+      unless (Gnome2 -> check_version(2, 3, 3));
 
     $entry -> set_max_saved(23);
     is($entry -> get_max_saved(), 23);

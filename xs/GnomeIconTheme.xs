@@ -1,22 +1,21 @@
 /*
- * Copyright (c) 2003 by the gtk2-perl team (see the file AUTHORS)
- *
+ * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * 
  * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
+ * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the 
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
- * Boston, MA  02111-1307  USA.
- *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconTheme.xs,v 1.6 2003/10/01 16:50:30 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconTheme.xs,v 1.14 2003/11/14 18:51:31 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -40,7 +39,7 @@ data_to_hv (const GnomeIconData * data)
 		av_store (av_points, 0, newSViv (point.x));
 		av_store (av_points, 1, newSViv (point.y));
 
-		av_store (av, i, newRV_inc ((SV*) av_points));
+		av_store (av, i, newRV_noinc ((SV*) av_points));
 	}
 
 	hv_store (hv, "has_embedded_rect", 17, newSVuv (data->has_embedded_rect), 0);
@@ -48,7 +47,7 @@ data_to_hv (const GnomeIconData * data)
 	hv_store (hv, "y0", 2, newSViv (data->y0), 0);
 	hv_store (hv, "x1", 2, newSViv (data->x1), 0);
 	hv_store (hv, "y1", 2, newSViv (data->y1), 0);
-	hv_store (hv, "attach_points", 13, newRV_inc ((SV*) av), 0);
+	hv_store (hv, "attach_points", 13, newRV_noinc ((SV*) av), 0);
 	hv_store (hv, "display_name", 12, newSVpv (data->display_name, PL_na), 0);
 
 	return hv;
@@ -131,7 +130,6 @@ MODULE = Gnome2::IconTheme	PACKAGE = Gnome2::IconTheme	PREFIX = gnome_icon_theme
 ##  GnomeIconTheme *gnome_icon_theme_new (void) 
 GnomeIconTheme *
 gnome_icon_theme_new (class)
-	SV * class
     C_ARGS:
 	/* void */
 
@@ -139,7 +137,7 @@ gnome_icon_theme_new (class)
 void
 gnome_icon_theme_set_search_path (theme, first_path, ...)
 	GnomeIconTheme *theme
-	SV * first_path
+	const char* first_path
     PREINIT:
 	int i;
 	const char **path = NULL;
@@ -198,6 +196,11 @@ gnome_icon_theme_set_custom_theme (theme, theme_name)
 	GnomeIconTheme *theme
 	const char *theme_name
 
+=for apidoc
+
+Returns the filename, the icon data and the base size.
+
+=cut
 # FIXME: it seems like icon_data never gets filled.
 ##  char * gnome_icon_theme_lookup_icon (GnomeIconTheme *theme, const char *icon_name, int size, const GnomeIconData **icon_data, int *base_size) 
 void
@@ -217,8 +220,10 @@ gnome_icon_theme_lookup_icon (theme, icon_name, size)
 
 	EXTEND (sp, 3);
 	PUSHs (sv_2mortal (newSVpv (filename, PL_na)));
-	PUSHs (sv_2mortal (newRV_inc ((SV*) data_to_hv (icon_data))));
+	PUSHs (sv_2mortal (newRV_noinc ((SV*) data_to_hv (icon_data))));
 	PUSHs (sv_2mortal (newSViv (base_size)));
+
+	g_free (filename);
 
 ##  gboolean gnome_icon_theme_has_icon (GnomeIconTheme *theme, const char *icon_name) 
 gboolean
@@ -226,19 +231,16 @@ gnome_icon_theme_has_icon (theme, icon_name)
 	GnomeIconTheme *theme
 	const char *icon_name
 
-# FIXME: this needs testing, but I don't know how to *use* it.
 ##  GList * gnome_icon_theme_list_icons (GnomeIconTheme *theme, const char *context) 
 void
 gnome_icon_theme_list_icons (theme, context=NULL)
 	GnomeIconTheme *theme
 	const char *context
     PREINIT:
-	GList * results, * i;
+	GList *i, *results = NULL;
     PPCODE:
 	results = gnome_icon_theme_list_icons (theme, context);
-	if (!results)
-		XSRETURN_EMPTY;
-	for (i = results ; i != NULL ; i = i->next) {
+	for (i = results; i != NULL; i = i->next) {
 		XPUSHs (sv_2mortal (newSVpv (i->data, PL_na)));
 		g_free (i->data);
 	}

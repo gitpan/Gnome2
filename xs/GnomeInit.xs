@@ -16,29 +16,12 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
  * Boston, MA  02111-1307  USA.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeInit.xs,v 1.3 2003/05/22 16:10:20 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeInit.xs,v 1.4 2003/09/21 01:31:26 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
 
 MODULE = Gnome2::Init	PACKAGE = Gnome2	PREFIX = gnome_
-
-GnomeModuleInfo *
-module_info (class)
-	SV * class
-    ALIAS:
-	Gnome2::ModuleInfo::libgnome = 1
-	Gnome2::ModuleInfo::libgnomeui = 2
-	Gnome2::ModuleInfo::bonobo = 3
-    CODE:
-	switch (ix) {
-		/* casting off const to avoid compiler warnings */
-		case 1: RETVAL = (GnomeModuleInfo*) LIBGNOME_MODULE; break;
-		case 2: RETVAL = (GnomeModuleInfo*) LIBGNOME_MODULE; break;
-		case 3: RETVAL = (GnomeModuleInfo*) gnome_bonobo_module_info_get (); break;
-	}
-    OUTPUT:
-	RETVAL
 
 const char *
 dirs (class)

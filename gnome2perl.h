@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
  * Boston, MA  02111-1307  USA.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/gnome2perl.h,v 1.4 2003/07/11 05:02:14 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/gnome2perl.h,v 1.6 2003/09/21 15:08:36 muppetman Exp $
  */
 
 #ifndef _GNOME2PERL_H_
@@ -26,6 +26,9 @@
 #undef _ /* gnome and perl disagree on this one */
 #include <gnome.h>
 #include <libgnome/libgnometypebuiltins.h>
+#include <bonobo.h>
+#include <bonobo/bonobo-ui-type-builtins.h>
+#include "gnome2perl-version.h"
 #include "gnome2perl-autogen.h"
 
 /*

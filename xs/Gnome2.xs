@@ -16,14 +16,35 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
  * Boston, MA  02111-1307  USA.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/Gnome2.xs,v 1.3 2003/05/22 16:10:19 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/Gnome2.xs,v 1.4 2003/09/21 15:53:00 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
 
 MODULE = Gnome2		PACKAGE = Gnome2	PREFIX = gnome_
 
-
 BOOT:
 #include "register.xsh"
 #include "boot.xsh"
+
+void
+gnome_get_version_info (class)
+	SV * class
+    PPCODE:
+	UNUSED (class);
+	EXTEND (SP, 3);
+	PUSHs (sv_2mortal (newSViv (LIBGNOMEUI_MAJOR_VERSION)));
+	PUSHs (sv_2mortal (newSViv (LIBGNOMEUI_MINOR_VERSION)));
+	PUSHs (sv_2mortal (newSViv (LIBGNOMEUI_MICRO_VERSION)));
+
+MODULE = Gnome2		PACKAGE = Gnome2::Bonobo	PREFIX = bonobo_
+
+void
+bonobo_get_version_info (class)
+	SV * class
+    PPCODE:
+	UNUSED (class);
+	EXTEND (SP, 3);
+	PUSHs (sv_2mortal (newSViv (LIBBONOBOUI_MAJOR_VERSION)));
+	PUSHs (sv_2mortal (newSViv (LIBBONOBOUI_MINOR_VERSION)));
+	PUSHs (sv_2mortal (newSViv (LIBBONOBOUI_MICRO_VERSION)));

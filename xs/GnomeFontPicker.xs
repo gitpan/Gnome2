@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
  * Boston, MA  02111-1307  USA.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeFontPicker.xs,v 1.3 2003/05/22 16:10:20 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeFontPicker.xs,v 1.4 2003/09/21 01:29:32 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -34,6 +34,11 @@ void
 gnome_font_picker_set_title (gfp, title)
 	GnomeFontPicker *gfp
 	const gchar *title
+
+## const gchar* gnome_font_picker_get_title (GnomeFontPicker *gfp) 
+const gchar*
+gnome_font_picker_get_title (gfp)
+	GnomeFontPicker *gfp
 
 ## GnomeFontPickerMode gnome_font_picker_get_mode (GnomeFontPicker *gfp) 
 GnomeFontPickerMode
@@ -70,9 +75,9 @@ GtkWidget *
 gnome_font_picker_uw_get_widget (gfp)
 	GnomeFontPicker *gfp
 
-## GdkFont* gnome_font_picker_get_font (GnomeFontPicker *gfp) 
-GdkFont*
-gnome_font_picker_get_font (gfp)
+## const gchar* gnome_font_picker_get_font_name (GnomeFontPicker *gfp) 
+const gchar*
+gnome_font_picker_get_font_name (gfp)
 	GnomeFontPicker *gfp
 
 ## gboolean gnome_font_picker_set_font_name (GnomeFontPicker *gfp, const gchar *fontname) 

@@ -16,10 +16,17 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
  * Boston, MA  02111-1307  USA.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeDateEdit.xs,v 1.3 2003/05/22 16:10:20 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeDateEdit.xs,v 1.5 2003/09/29 14:48:38 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
+
+static SV *
+date_edit_flags_to_sv (gint flags)
+{
+	return gperl_convert_back_flags (GNOME_TYPE_DATE_EDIT_FLAGS,
+	                                 flags);
+}
 
 MODULE = Gnome2::DateEdit	PACKAGE = Gnome2::DateEdit	PREFIX = gnome_date_edit_
 
@@ -65,9 +72,13 @@ gnome_date_edit_set_flags (gde, flags)
 	GnomeDateEditFlags flags
 
 ## int gnome_date_edit_get_flags (GnomeDateEdit *gde) 
-int
+SV *
 gnome_date_edit_get_flags (gde)
 	GnomeDateEdit *gde
+    CODE:
+	RETVAL = date_edit_flags_to_sv (gnome_date_edit_get_flags (gde));
+    OUTPUT:
+	RETVAL
 
 ## time_t gnome_date_edit_get_initial_time(GnomeDateEdit *gde) 
 time_t

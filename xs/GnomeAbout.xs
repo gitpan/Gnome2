@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
  * Boston, MA  02111-1307  USA.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeAbout.xs,v 1.4 2003/05/22 16:10:19 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeAbout.xs,v 1.5 2003/09/21 01:26:21 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -79,9 +79,9 @@ gnome_about_new (class, name, version, copyright, comments, authors, documenters
 			d[1] = NULL;
 		}
 	}
-        RETVAL = gnome_about_new (name, version, copyright, comments,
+	RETVAL = gnome_about_new (name, version, copyright, comments,
 	                          a, d, translator_credits, logo_pixbuf);
 	g_free (a);
 	g_free (d);
      OUTPUT:
-        RETVAL
+	RETVAL

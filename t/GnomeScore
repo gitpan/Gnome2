@@ -1,0 +1,13 @@
+#!/usr/bin/perl -w
+use strict;
+use Gnome2;
+
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeScore,v 1.1 2003/09/25 15:05:49 kaffeetisch Exp $
+
+Gnome2::Score -> init("Test");
+
+Gnome2::Score -> log(1.23, "first", 1);
+Gnome2::Score -> log(1.5745, "first", 1);
+
+use Data::Dumper;
+print Dumper (Gnome2::Score -> get_notable("Test", "first"));

@@ -1,31 +1,45 @@
 #
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Makefile.PL,v 1.8 2003/07/23 21:06:10 muppetman Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Makefile.PL,v 1.19 2003/09/22 00:23:18 rwmcfa1 Exp $
 #
 
 use 5.008;
 use ExtUtils::MakeMaker;
 use Cwd;
-use ExtUtils::Depends;
-use Glib::PkgConfig;
-use Gtk2::CodeGen;
+use File::Spec;
 
-# minimum required version of Gtk2 with which we can work.
-my $req_gtk2_ver = '0.90';
+# minimum required version of dependancies we need to build
+our %build_reqs = (
+	'perl-ExtUtils-Depends'   => '0.1',
+	'perl-ExtUtils-PkgConfig' => '0.1',
+	'perl-Glib'               => '1.00rc1',
+	'perl-Gtk2'               => '1.00rc1',
+	'Gnome'                   => '2.0.0',
+	'Bonobo'                  => '2.0.0',
+);
+
+# minimum required version of dependancies we need to run
+our %runtime_reqs = (
+	'Gnome'	=> undef,
+);
 
 # Writing a fake Makefile ensures that CPAN will pick up the correct
 # dependencies and install them.
 unless (eval "use ExtUtils::Depends;"
-           . "use Glib::PkgConfig;"
+           . "use ExtUtils::PkgConfig;"
+	   . "use Gtk2::CodeGen;"
            # just seeing if Glib is available isn't enough, make sure
            # it's recent enough, too 
-           . "use Gtk2 $req_gtk2_ver;"
+           . "use Glib '$build_reqs{'perl-Glib'}';"
+           . "use Gtk2 '$build_reqs{'perl-Gtk2'}';"
            . "1") {
    warn "$@\n";
    WriteMakefile(
          PREREQ_FATAL => 1,
          PREREQ_PM    => {
-            Gtk2::              => $req_gtk2_ver, # keep this in sync
-            ExtUtils::Depends:: => 0.1,
+            Glib::                => $build_reqs{'perl-Glib'},
+            Gtk2::                => $build_reqs{'perl-Gtk2'},
+            ExtUtils::Depends::   => $build_reqs{'perl-ExtUtils-Depends'},
+            ExtUtils::PkgConfig:: => $build_reqs{'perl-ExtUtils-PkgConfig'},
          },
    );
    exit 1; # not reached
@@ -34,7 +48,16 @@ unless (eval "use ExtUtils::Depends;"
 # now let's get started on the real work...
 # in theory, getting what we need to build libgnomeui should 
 # also get everything we need for libgnome.
-%pkgcfg = Glib::PkgConfig->find ('libgnomeui-2.0');
+%gnome_pkgcfg =
+	ExtUtils::PkgConfig->find ("libgnomeui-2.0 >= $build_reqs{Gnome}");
+$runtime_reqs{Gnome} = $gnome_pkgcfg{modversion};
+
+%bonobo_pkgcfg =
+	ExtUtils::PkgConfig->find("libbonoboui-2.0 >= $build_reqs{Bonobo}");
+
+%cfgs = (libgnomeui => \%gnome_pkgcfg,
+         libbonoboui => \%bonobo_pkgcfg,
+	);
 
 mkdir 'build', 0777;
 
@@ -44,20 +67,40 @@ mkdir 'build', 0777;
 Gtk2::CodeGen->parse_maps ('gnome2perl');
 Gtk2::CodeGen->write_boot;
 
+open VERSION, ">build/gnome2perl-version.h";
+foreach my $pkg (keys %cfgs) {
+	my $stem = uc $pkg;
+	my @modversion = split /\./, $cfgs{$pkg}{modversion};
+	print VERSION "#define $stem\_MAJOR_VERSION   ($modversion[0])\n";
+	print VERSION "#define $stem\_MINOR_VERSION   ($modversion[1])\n";
+	print VERSION "#define $stem\_MICRO_VERSION   ($modversion[2])\n";
+	print VERSION
+	     "#define $stem\_CHECK_VERSION(major,minor,micro) \\\n"
+	   . "    ($stem\_MAJOR_VERSION > (major) || \\\n"
+	   . "     ($stem\_MAJOR_VERSION == (major) && $stem\_MINOR_VERSION > (minor)) || \\\n"
+	   . "     ($stem\_MAJOR_VERSION == (major) && $stem\_MINOR_VERSION == (minor) && \\\n"
+	   . "      $stem\_MICRO_VERSION >= (micro)))\n";
+}
+close VERSION;
+
+
 # now we're ready to start creating the makefile.
 # we need to use ExtUtils::Depends to get relevant information out of
 # the Glib extension, and to save config information for other modules which
 # will chain from this one.
 
 $gnome2 = ExtUtils::Depends->new ('Gnome2', 'Gtk2', 'Glib');
-$gnome2->set_inc ($pkgcfg{cflags});
-$gnome2->set_libs ($pkgcfg{libs});
+$gnome2->set_inc ($gnome_pkgcfg{cflags} . " " . $bonobo_pkgcfg{cflags});
+$gnome2->set_libs ($gnome_pkgcfg{libs} . " " . $bonobo_pkgcfg{libs});
 $gnome2->add_xs (<xs/*.xs>);
 $gnome2->add_pm ('Gnome2.pm' => '$(INST_LIBDIR)/Gnome2.pm');
-$gnome2->add_typemaps (map {cwd().'/'.$_} 'build/gnome2perl.typemap', 'gnomeuiinfo.typemap');
+my $cwd = cwd();
+$gnome2->add_typemaps (map {File::Spec->catfile($cwd,$_)} 'build/gnome2perl.typemap', 'gnomeuiinfo.typemap');
 $gnome2->add_headers ('gnome2perl.h');
 
-$gnome2->install (qw(gnome2perl.h build/gnome2perl-autogen.h));
+$gnome2->install (qw(gnome2perl.h
+                     build/gnome2perl-autogen.h
+                     build/gnome2perl-version.h));
 $gnome2->save_config ('build/IFiles.pm');
 
 WriteMakefile(
@@ -74,9 +117,52 @@ WriteMakefile(
 # -o on the compiler command line.  this is a hackish fix for it.
 #
 package MY;
+use Cwd;
+
 sub const_cccmd {
 	my $inherited = shift->SUPER::const_cccmd (@_);
 	$inherited .= ' -o $@';
 	$inherited;
+}
+
+sub postamble
+{
+	my @dirs = qw{rpms rpms/BUILD rpms/RPMS rpms/SOURCES
+		      rpms/SPECS rpms/SRPMS};
+	my $cwd = getcwd();
+
+	my %subs = (
+		'VERSION' => '$(VERSION)',
+		'SOURCE' => '$(DISTNAME)-$(VERSION).tar.gz',
+		'GNOME_RUN' => $runtime_reqs{'Gnome'},
+		'GNOME' => $build_reqs{'Gnome'},
+		'PERL_EXTUTILS_DEPENDS' => 
+			$build_reqs{'perl-ExtUtils-Depends'},
+		'PERL_EXTUTILS_PKGCONFIG' => 
+			$build_reqs{'perl-ExtUtils-PkgConfig'},
+		'PERL_GLIB' => $build_reqs{'perl-Glib'},
+		'PERL_GTK' => $build_reqs{'perl-Gtk2'},
+	);
+	
+	my $substitute = '$(PERL) -npe \''.join('; ', map {
+			"s/\\\@$_\\\@/$subs{$_}/g";
+		} keys %subs).'\'';
+
+	"
+realclean ::
+	-\$(RM_RF) build perl-\$(DISTNAME).spec
+
+rpms/:
+	-mkdir @dirs
+
+SUBSTITUTE=$substitute
+
+perl-\$(DISTNAME).spec: perl-\$(DISTNAME).spec.in \$(VERSION_FROM) Makefile
+	\$(SUBSTITUTE) \$< > \$@
+
+dist-rpms: Makefile dist perl-\$(DISTNAME).spec rpms/
+	cp \$(DISTNAME)-\$(VERSION).tar.gz rpms/SOURCES/
+	rpmbuild -ba --define \"_topdir $cwd/rpms\" perl-\$(DISTNAME).spec
+"
 }
 package MAIN;

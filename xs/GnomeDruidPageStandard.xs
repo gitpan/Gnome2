@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
  * Boston, MA  02111-1307  USA.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeDruidPageStandard.xs,v 1.3 2003/05/22 16:10:20 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeDruidPageStandard.xs,v 1.4 2003/09/30 14:03:39 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -32,11 +32,11 @@ gnome_druid_page_standard_new (class)
 
 ## GtkWidget*  gnome_druid_page_standard_new_with_vals (const gchar *title, GdkPixbuf *logo, GdkPixbuf *top_watermark);
 GtkWidget *
-gnome_druid_page_standard_new_with_vals (class, title, logo, top_watermark)
+gnome_druid_page_standard_new_with_vals (class, title, logo=NULL, top_watermark=NULL)
 	SV * class
 	const gchar *title
-	GdkPixbuf_ornull *logo
-	GdkPixbuf_ornull *top_watermark
+	GdkPixbuf *logo
+	GdkPixbuf *top_watermark
     C_ARGS:
 	title, logo, top_watermark
 

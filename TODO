@@ -1,41 +1,24 @@
 #
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/TODO,v 1.2 2003/04/20 16:41:13 rwmcfa1 Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/TODO,v 1.8 2003/09/26 14:32:57 kaffeetisch Exp $
 #
 
+need examples
 
 these haven't been done yet (going from the reference doc indices):
 
-libbonobo:
+libbonobo, libbonoboui:
 	not touched.  should it go in a separate module?  (still in this
 	namespace, but...)
 
 libgnome:
 	gnome-exec (perl offers the same features natively)
-	gnome-config
-	gnome-i18n
-	gnome-help
-	gnome-url
-	gnome-score
-	gnome-triggers
+	gnome-config (the docs say it's not for mainstream apps)
+	gnome-triggers (failed to implement this one)
 
 libgnomeui:
-	anything that has to do with bonobo
-	anything that has to do with GnomeUIInfo, all the gnome-app-helper stuff
 	gnome-ui-init (the parameters... the gnome_init stuff is deprecated)
-	gnome-window
-	gnome-popup-menu (more GnomeUIInfo)
-	GnomeIconEntry
-	GnomeIconList
 	GnomeIconLookup
-	GnomeIconTheme
-	GnomeIconSelection
-	GnomeThemeFile
-	GnomeThumbnail
-	GnomePixmap
-	GnomePixmapEntry
-	GnomeScores
-
+	GnomeThemeFile (no GObject, so I'll wait till someone begs for it)
 	gnome-stock-icons (not all are deprecated)
-	gnome-uidefs (like gnome-stock-icons, not GEnums, looks messy)
 	gnome-vfs-util (no bindings for gnome-vfs, either!)
 

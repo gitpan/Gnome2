@@ -1,7 +1,7 @@
 #read !grep _TYPE_ /usr/include/gtk-2.0/gtk/*.h | grep get_type  
 #% s/^.*[ \t]\([_A-Z0-9]*_TYPE_[_A-Z0-9]*\)[ \t].*$/\1/ 
 #
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/genmaps.pl,v 1.3 2003/06/09 15:30:39 muppetman Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/genmaps.pl,v 1.4 2003/09/21 01:21:23 kaffeetisch Exp $
 #
 
 
@@ -29,7 +29,8 @@ gconfgtk-2.0
 	'/usr/include/libgnome-2.0/libgnome/',
 	'/usr/include/libgnomeui-2.0/libgnomeui/',
 	'/usr/include/libgnomecanvas-2.0/libgnomecanvas/',
-#	'/usr/include/libbonobo-2.0/bonobo/',
+	'/usr/include/libbonobo-2.0/bonobo/',
+	'/usr/include/libbonoboui-2.0/bonobo/'
 );
 
 foreach $dir (@dirs) {
@@ -51,6 +52,7 @@ print '#include <stdio.h>
 #include <gnome.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <libgnome/libgnometypebuiltins.h>
+#include <bonobo/bonobo-ui-type-builtins.h>
 
 const char * find_base (GType gtype)
 {

@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
  * Boston, MA  02111-1307  USA.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeEntry.xs,v 1.3 2003/05/22 16:10:20 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeEntry.xs,v 1.4 2003/09/21 01:30:25 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -25,12 +25,15 @@ MODULE = Gnome2::Entry	PACKAGE = Gnome2::Entry	PREFIX = gnome_entry_
 
 ## GtkWidget * gnome_entry_new (const gchar *history_id) 
 GtkWidget *
-gnome_entry_new (class, history_id)
+gnome_entry_new (class, history_id=NULL)
 	SV * class
 	const gchar * history_id
     C_ARGS:
 	history_id
 
+GtkWidget *
+gnome_entry_gtk_entry (gentry)
+	GnomeEntry *gentry
 
 const gchar *
 gnome_entry_get_history_id (gentry)

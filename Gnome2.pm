@@ -1,4 +1,4 @@
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.28.2.2 2004/05/29 14:39:50 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.35 2004/09/13 22:14:57 kaffeetisch Exp $
 
 package Gnome2;
 
@@ -14,7 +14,7 @@ require DynaLoader;
 
 our @ISA = qw(DynaLoader);
 
-our $VERSION = '1.001';
+our $VERSION = '1.020';
 
 sub import {
   my $self = shift();
@@ -25,11 +25,8 @@ sub dl_load_flags { 0x01 }
 
 Gnome2 -> bootstrap($VERSION);
 
-# Preloaded methods go here.
-
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
@@ -171,7 +168,7 @@ corrected several of muppet's mistakes.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+Copyright (C) 2003-2004 by the gtk2-perl team (see the file AUTHORS)
 
 This library is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free

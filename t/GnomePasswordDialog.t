@@ -2,10 +2,10 @@
 use strict;
 use Gnome2;
 
-use constant TESTS => 5;
+use constant TESTS => 7;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePasswordDialog.t,v 1.6 2004/03/29 18:04:58 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePasswordDialog.t,v 1.9 2004/09/13 22:15:47 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -16,6 +16,13 @@ SKIP: {
     unless (Gnome2 -> CHECK_VERSION(2, 4, 0));
 
   Gnome2::AuthenticationManager -> init();
+
+  SKIP: {
+    skip("dialog_is_visible is new in 2.8", 1)
+      unless (Gnome2 -> CHECK_VERSION(2, 8, 0));
+
+    ok(!Gnome2::AuthenticationManager -> dialog_is_visible());
+  }
 
   my $dialog = Gnome2::PasswordDialog -> new("Bla", "Bla!", "bla", "alb", 1);
   isa_ok($dialog, "Gnome2::PasswordDialog");
@@ -43,6 +50,14 @@ SKIP: {
 
     $dialog -> set_domain("urgs");
     is($dialog -> get_domain(), "urgs");
+  }
+
+  SKIP: {
+    skip("things new in 2.8.0", 1)
+      unless (Gnome2 -> CHECK_VERSION(2, 8, 0));
+
+    $dialog -> set_show_userpass_buttons(1);
+    ok(!$dialog -> anon_selected());
   }
 
   # $dialog -> run_and_block();

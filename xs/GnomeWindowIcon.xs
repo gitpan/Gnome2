@@ -15,14 +15,14 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeWindowIcon.xs,v 1.1 2003/12/09 22:56:26 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeWindowIcon.xs,v 1.2 2004/05/21 14:19:02 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
 
 /* ------------------------------------------------------------------------- */
 
-char **
+static char **
 newSVGnomeCharArray (SV *ref)
 {
 	AV *array;

@@ -15,10 +15,13 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeFontPicker.xs,v 1.6 2003/11/07 18:46:15 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeFontPicker.xs,v 1.7 2004/07/18 17:50:23 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
+
+/* gnome-font-picker.h was deprecated in 2003 */
+#undef GNOME_DISABLE_DEPRECATED
 
 MODULE = Gnome2::FontPicker	PACKAGE = Gnome2::FontPicker	PREFIX = gnome_font_picker_
 

@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconList.xs,v 1.11 2003/12/12 02:39:38 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconList.xs,v 1.14 2004/09/13 22:15:48 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -42,13 +42,17 @@ gnome2perl_icon_list_flags_get_type (void)
 	return etype;
 }
 
-SV *
+#if 0 /* unused at the moment */
+
+static SV *
 newSVGnome2PerlIconListFlags (Gnome2PerlIconListFlags flags)
 {
 	return gperl_convert_back_flags (gnome2perl_icon_list_flags_get_type (), flags);
 }
 
-Gnome2PerlIconListFlags
+#endif
+
+static Gnome2PerlIconListFlags
 SvGnome2PerlIconListFlags (SV *sv)
 {
 	return gperl_convert_flags (gnome2perl_icon_list_flags_get_type (), sv);
@@ -157,6 +161,15 @@ void
 gnome_icon_list_unselect_icon (gil, pos)
 	GnomeIconList *gil
 	int pos
+
+#if LIBGNOMEUI_CHECK_VERSION (2, 8, 0)
+
+##  void gnome_icon_list_select_all (GnomeIconList *gil) 
+void
+gnome_icon_list_select_all (gil)
+	GnomeIconList *gil
+
+#endif
 
 ##  int gnome_icon_list_unselect_all (GnomeIconList *gil) 
 int

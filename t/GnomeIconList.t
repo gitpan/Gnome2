@@ -2,10 +2,10 @@
 use strict;
 use Gnome2;
 
-use constant TESTS => 10;
+use constant TESTS => 12;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconList.t,v 1.10 2003/12/15 00:17:24 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconList.t,v 1.13 2004/09/13 22:15:37 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -52,6 +52,13 @@ SKIP: {
   $list -> unselect_icon(1);
   $list -> unselect_all();
 
+  SKIP: {
+    skip("select_all is new in 2.8", 0)
+      unless (Gnome2 -> CHECK_VERSION(2, 8, 0));
+
+    $list -> select_all();
+  }
+
   $list -> focus_icon(1);
 
   $list -> set_icon_width(42);
@@ -61,12 +68,11 @@ SKIP: {
   $list -> set_icon_border(5);
   $list -> set_separators("--");
 
-  # FIXME: why does moveto() yield a warning? why is $list not a Gtk2::Widget?
+  # FIXME: why does moveto() yield a warning?
   # $list -> moveto(1, 0.0);
-  # is($list -> icon_is_visible(1), "none");
 
-  # FIXME: need a window and a main loop for this.
-  # is($list -> get_icon_at(20, 20), 1);
+  is($list -> icon_is_visible(1), "none");
+  is($list -> get_icon_at(20, 20), -1);
 
   like($list -> get_items_per_line(), qr/^\d+$/);
 

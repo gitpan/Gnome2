@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 9;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeProgram.t,v 1.7 2004/02/12 18:21:14 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeProgram.t,v 1.9 2004/09/13 22:15:47 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -31,11 +31,23 @@ SKIP: {
 
   @ARGV = qw(--name bla --class blub --urgs);
 
-  my $application = Gnome2::Program -> init("Test",
-                                            "0.1",
-                                            "libgnomeui",
-                                            app_prefix => "/gtk2perl",
-                                            app_sysconfdir => "/gtk2perl/etc");
+  my $application;
+
+  if (Gnome2 -> CHECK_VERSION (2, 8, 0)) {
+    $application = Gnome2::Program -> init("Test",
+                                           "0.1",
+                                           "libgnomeui",
+                                           app_prefix => "/gtk2perl",
+                                           app_sysconfdir => "/gtk2perl/etc",
+                                           human_readable_name => "Test");
+  }
+  else {
+    $application = Gnome2::Program -> init("Test",
+                                           "0.1",
+                                           "libgnomeui",
+                                           app_prefix => "/gtk2perl",
+                                           app_sysconfdir => "/gtk2perl/etc");
+  }
 
   is_deeply([$application -> get(qw(app_prefix app_sysconfdir))], [qw(/gtk2perl /gtk2perl/etc)]);
   is_deeply(\@ARGV, [qw(--name bla --class blub --urgs)]);

@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 50;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeConfig.t,v 1.8 2004/03/29 18:04:56 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeConfig.t,v 1.9 2004/07/18 17:50:22 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -137,6 +137,7 @@ SKIP: {
 
   #############################################################################
 
+  # ok(Gnome2::Config -> sync());
   # ok(Gnome2::Config -> sync_file("Test"));
   # ok(Gnome2::Config::Private -> sync_file("Test"));
 
@@ -149,6 +150,8 @@ SKIP: {
 
   Gnome2::Config -> drop_file("Test");
   Gnome2::Config::Private -> drop_file("Test");
+
+  Gnome2::Config -> drop_all();
 
   #############################################################################
 

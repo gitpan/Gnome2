@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 4;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeThumbnail.t,v 1.9.2.1 2004/05/16 15:46:03 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeThumbnail.t,v 1.12 2004/07/18 17:50:22 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -37,7 +37,7 @@ SKIP: {
 
   SKIP: {
     skip("has_uri and is_valid are broken", 2)
-      unless (0); # FIXME: add version check once #141044 is fixed.
+      unless (Gnome2 -> CHECK_VERSION(2, 8, 0));
 
     like($thumbnail -> has_uri($uri), qr/^(|1)$/);
     like($thumbnail -> is_valid($uri, $mtime), qr/^(|1)$/);

@@ -15,10 +15,13 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomePopupMenu.xs,v 1.9 2004/03/02 02:37:33 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomePopupMenu.xs,v 1.10 2004/07/18 17:50:23 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
+
+/* gnome-popup-menu.h was deprecated in 2003. */
+#undef GNOME_DISABLE_DEPRECATED
 
 extern void gtk2perl_menu_position_func (GtkMenu       * menu,
                                          gint          * x,

@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomePasswordDialog.xs,v 1.4.2.1 2004/05/21 14:11:48 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomePasswordDialog.xs,v 1.7 2004/09/13 22:15:48 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -137,5 +137,22 @@ gnome_password_dialog_get_domain (password_dialog)
 	g_free (RETVAL);
 
 #endif /* 2.6.0 */
+
+# --------------------------------------------------------------------------- #
+
+#if LIBGNOMEUI_CHECK_VERSION (2, 8, 0)
+
+##  void gnome_password_dialog_set_show_userpass_buttons (GnomePasswordDialog *password_dialog, gboolean show_userpass_buttons)
+void
+gnome_password_dialog_set_show_userpass_buttons (password_dialog, show_userpass_buttons)
+	GnomePasswordDialog *password_dialog
+	gboolean show_userpass_buttons
+
+##  gboolean gnome_password_dialog_anon_selected (GnomePasswordDialog *password_dialog)
+gboolean
+gnome_password_dialog_anon_selected (password_dialog)
+	GnomePasswordDialog *password_dialog
+
+#endif /* 2.8.0 */
 
 #endif /* GNOME_TYPE_PASSWORD_DIALOG */

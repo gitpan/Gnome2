@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/Gnome2.xs,v 1.15 2004/03/29 18:04:58 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/Gnome2.xs,v 1.17 2004/09/13 22:15:48 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -86,5 +86,15 @@ void
 gnome_authentication_manager_init (class)
    C_ARGS:
 	/* void */
+
+#if LIBGNOMEUI_CHECK_VERSION (2, 8, 0)
+
+## gboolean gnome_authentication_manager_dialog_is_visible (void)
+gboolean
+gnome_authentication_manager_dialog_is_visible (class)
+    C_ARGS:
+	/* void */
+
+#endif
 
 #endif

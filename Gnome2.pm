@@ -1,4 +1,4 @@
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.35 2004/09/13 22:14:57 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.37 2005/03/06 15:07:01 kaffeetisch Exp $
 
 package Gnome2;
 
@@ -14,14 +14,14 @@ require DynaLoader;
 
 our @ISA = qw(DynaLoader);
 
-our $VERSION = '1.020';
+our $VERSION = '1.021';
 
 sub import {
   my $self = shift();
   $self -> VERSION(@_);
 }
 
-sub dl_load_flags { 0x01 }
+sub dl_load_flags { $^O eq 'darwin' ? 0x00 : 0x01 }
 
 Gnome2 -> bootstrap($VERSION);
 
@@ -168,7 +168,7 @@ corrected several of muppet's mistakes.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2003-2004 by the gtk2-perl team (see the file AUTHORS)
+Copyright (C) 2003-2005 by the gtk2-perl team (see the file AUTHORS)
 
 This library is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free

@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
  * Boston, MA  02111-1307  USA.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeGConf.xs,v 1.3 2003/05/22 16:10:20 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeGConf.xs,v 1.4 2003/07/05 07:09:06 pcg Exp $
  */
 
 #include "gnome2perl.h"
@@ -24,7 +24,7 @@
 MODULE = Gnome2::GConf	PACKAGE = Gnome2::GConf	PREFIX = gnome_gconf_
 
 ##  gchar *gnome_gconf_get_gnome_libs_settings_relative (const gchar *subkey) 
-gchar *
+gchar_own *
 gnome_gconf_get_gnome_libs_settings_relative (class, subkey)
 	SV * class
 	const gchar *subkey
@@ -32,10 +32,11 @@ gnome_gconf_get_gnome_libs_settings_relative (class, subkey)
 	subkey
 
 ##  gchar *gnome_gconf_get_app_settings_relative (GnomeProgram *program, const gchar *subkey) 
-gchar *
+gchar_own *
 gnome_gconf_get_app_settings_relative (class, program, subkey)
 	SV * class
 	GnomeProgram *program
 	const gchar *subkey
     C_ARGS:
 	program, subkey
+

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/druid.pl,v 1.5 2003/05/17 13:30:51 rwmcfa1 Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/druid.pl,v 1.6 2003/07/18 16:57:06 muppetman Exp $
 #
 
 use Gnome2;
@@ -22,6 +22,7 @@ $end_page_text =
 # it does, however, mean that the program will spit out lots of GConf-CRITICAL
 # warnings, and present the user with a warning that the app couldn't 
 # initialize properly. but this is a test, and we want to see things like that.
+#Gnome2::Program->init ('Druid Test', '1.0beta');
 ###Gnome2::Program->init ('Druid Test', '1.0beta', 'libgnomeui');
 Gnome2::Program->init ('Druid Test', '1.0beta', 'libgnomeui',
                        show_crash_dialog => FALSE,

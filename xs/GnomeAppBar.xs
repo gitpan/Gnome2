@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
  * Boston, MA  02111-1307  USA.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeAppBar.xs,v 1.3 2003/05/22 16:10:20 muppetman Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeAppBar.xs,v 1.4 2003/07/05 07:09:06 pcg Exp $
  */
 
 #include "gnome2perl.h"
@@ -95,7 +95,7 @@ gnome_appbar_clear_prompt (appbar)
 	GnomeAppBar * appbar
 
 ## gchar * gnome_appbar_get_response (GnomeAppBar * appbar) 
-gchar *
+gchar_own *
 gnome_appbar_get_response (appbar)
 	GnomeAppBar * appbar
 

@@ -1,5 +1,5 @@
 #
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.7 2003/07/05 04:50:48 muppetman Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.9 2003/07/18 16:57:02 muppetman Exp $
 #
 
 package Gnome2;
@@ -32,7 +32,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.26';
+our $VERSION = '0.28';
 
 sub dl_load_flags { 0x01 }
 

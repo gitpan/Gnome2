@@ -1,5 +1,5 @@
 #
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Makefile.PL,v 1.6 2003/06/20 16:03:09 muppetman Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Makefile.PL,v 1.7 2003/07/11 05:02:14 muppetman Exp $
 #
 
 use 5.008;
@@ -29,7 +29,7 @@ $gnome2->set_inc ($pkgcfg{cflags});
 $gnome2->set_libs ($pkgcfg{libs});
 $gnome2->add_xs (<xs/*.xs>);
 $gnome2->add_pm ('Gnome2.pm' => '$(INST_LIBDIR)/Gnome2.pm');
-$gnome2->add_typemaps (map {cwd().'/'.$_} 'build/gnome2perl.typemap');
+$gnome2->add_typemaps (map {cwd().'/'.$_} 'build/gnome2perl.typemap', 'gnomeuiinfo.typemap');
 $gnome2->add_headers ('gnome2perl.h');
 
 $gnome2->install (qw(gnome2perl.h build/gnome2perl-autogen.h));

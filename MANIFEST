@@ -4,12 +4,14 @@ Gnome2.pm
 LICENSE
 MANIFEST
 MANIFEST.SKIP
+META.yml                                Module meta-data in YAML
 Makefile.PL
 README
 TODO
 druid.pl
 genmaps.pl
 gnome2perl.h
+gnomeuiinfo.typemap
 maps
 t/00.Gnome2.t
 xs/Gnome2.xs

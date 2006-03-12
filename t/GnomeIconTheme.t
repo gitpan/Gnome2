@@ -7,7 +7,7 @@ use Test::More tests => TESTS;
 
 Gnome2::VFS -> init();
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconTheme.t,v 1.17 2004/05/28 21:14:40 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconTheme.t,v 1.18 2005/10/08 13:57:00 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -46,9 +46,14 @@ SKIP: {
       $icon_data,
       $size) = $theme -> lookup_icon("gnome-fs-directory", 48);
 
-  ok(-e $file);
-  isa_ok($icon_data, "HASH");
-  like($size, qr/^\d+$/);
+  SKIP: {
+    skip "lookup_icon aftermath", 3
+      unless defined $file;
+
+    ok(-e $file);
+    isa_ok($icon_data, "HASH");
+    like($size, qr/^\d+$/);
+  }
 
   $theme -> set_allow_svg(1);
   is($theme -> get_allow_svg(), 1);

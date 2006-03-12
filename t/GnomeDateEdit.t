@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 5;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeDateEdit.t,v 1.8 2005/06/22 17:33:54 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeDateEdit.t,v 1.9 2005/10/08 13:57:00 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -30,5 +30,5 @@ SKIP: {
   $edit -> set_popup_range(6, 12);
 
   $edit -> set_flags([qw(show_time 24_hr)]);
-  is($edit -> get_flags(), [qw(show-time 24-hr)]);
+  is_deeply(\@{ $edit -> get_flags() }, [qw(show-time 24-hr)]);
 }

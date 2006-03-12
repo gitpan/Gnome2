@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 3;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconSelection.t,v 1.6 2004/02/10 17:59:53 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconSelection.t,v 1.7 2005/10/08 13:57:00 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -19,6 +19,10 @@ SKIP: {
   isa_ok($selection, "Gnome2::IconSelection");
   isa_ok($selection -> get_gil(), "Gnome2::IconList");
   isa_ok($selection -> get_box(), "Gtk2::VBox");
+
+  my $window = Gtk2::Window -> new();
+  $window -> add($selection);
+  $selection -> realize();
 
   $selection -> clear(1);
 

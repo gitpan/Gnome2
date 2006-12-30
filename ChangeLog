@@ -1,3 +1,15 @@
+2006-12-30	kaffeetisch
+
+	* Gnome2.pm, NEWS: Stable release 1.041.
+
+2006-12-30	kaffeetisch
+
+	* t/GnomeUtil.t: Fix a test failure.
+
+2006-10-03	kaffeetisch
+
+	* Gnome2.pm: Fix a POD error.
+
 2006/03/12	kaffeetisch
 
 	* Gnome2.pm, NEWS, README: Stable release 1.040.

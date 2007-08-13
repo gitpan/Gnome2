@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeProgram.xs,v 1.21 2004/09/13 22:15:48 kaffeetisch Exp $
+ * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeProgram.xs,v 1.22 2007/08/13 18:10:48 kaffeetisch Exp $
  */
 
 #include "gnome2perl.h"
@@ -97,20 +97,35 @@ gnome_program_init (class, app_id, app_version, module_info=NULL, ...)
 
 	/* get properties off the stack and set them */
 	for (i = FIRST_VAR_ARG, j = 0 ; i < items ; i += 2, j++) {
-		GParamSpec * pspec;
+		GType type;
 
 		params[j].name = SvGChar (ST (i));
-		pspec = g_object_class_find_property (class, params[j].name);
-		if (!pspec)
-			/* we should do a lot more cleanup here, 
-			 * in principle, but the GnomeProgram is a 
-			 * singleton, and most people aren't going to
-			 * accept an exception on initializing it. */
-			croak ("property %s not found in object class %s",
-			       params[j].name,
-			       g_type_name (GNOME_TYPE_PROGRAM));
 
-		g_value_init (&params[j].value, G_PARAM_SPEC_VALUE_TYPE (pspec));
+		/* Map GNOME_CLIENT_PARAM_SM_CONNECT to G_TYPE_BOOLEAN
+		 * manually.  It's installed into the GnomeProgram class by
+		 * libgnomeui when its module is loaded.  But that happens as
+		 * part of gnome_program_init_paramv which we call below.  So
+		 * when we try to find out the correct type for sm-connect
+		 * *now*, the type system will complain that GnomeProgram has
+		 * no such property.
+		 */
+		if (gperl_str_eq (params[j].name, GNOME_CLIENT_PARAM_SM_CONNECT)) {
+			type = G_TYPE_BOOLEAN;
+		} else {
+			GParamSpec * pspec =
+			  g_object_class_find_property (class, params[j].name);
+			if (!pspec)
+				/* we should do a lot more cleanup here,
+				 * in principle, but the GnomeProgram is a
+				 * singleton, and most people aren't going to
+				 * accept an exception on initializing it. */
+				croak ("property %s not found in object class %s",
+				       params[j].name,
+				       g_type_name (GNOME_TYPE_PROGRAM));
+			type = G_PARAM_SPEC_VALUE_TYPE (pspec);
+		}
+
+		g_value_init (&params[j].value, type);
 		gperl_value_from_sv (&params[j].value, ST (i+1));
 	}
 

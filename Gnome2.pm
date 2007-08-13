@@ -1,4 +1,4 @@
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.43 2006/12/30 15:15:07 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.44 2007/08/13 18:14:20 kaffeetisch Exp $
 
 package Gnome2;
 
@@ -14,7 +14,7 @@ require DynaLoader;
 
 our @ISA = qw(DynaLoader);
 
-our $VERSION = '1.041';
+our $VERSION = '1.042';
 
 sub import {
   my $self = shift();

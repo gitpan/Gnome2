@@ -1,11 +1,12 @@
 #!/usr/bin/perl -w
 use strict;
+use Glib qw(:constants);
 use Gnome2;
 
 use constant TESTS => 9;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeProgram.t,v 1.9 2004/09/13 22:15:47 kaffeetisch Exp $
+# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeProgram.t,v 1.10 2007/08/13 18:10:47 kaffeetisch Exp $
 
 ###############################################################################
 
@@ -39,7 +40,8 @@ SKIP: {
                                            "libgnomeui",
                                            app_prefix => "/gtk2perl",
                                            app_sysconfdir => "/gtk2perl/etc",
-                                           human_readable_name => "Test");
+                                           human_readable_name => "Test",
+                                           sm_connect => FALSE);
   }
   else {
     $application = Gnome2::Program -> init("Test",

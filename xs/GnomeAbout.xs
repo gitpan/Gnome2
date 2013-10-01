@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * Copyright (C) 2003, 2013 by the gtk2-perl team (see the file AUTHORS)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -8,14 +8,11 @@
  * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeAbout.xs,v 1.8 2003/11/07 18:46:15 kaffeetisch Exp $
+ * See the LICENSE file in the top level of this distribution
+ * for the complete license terms.
+ *
  */
 
 #include "gnome2perl.h"
@@ -51,12 +48,12 @@ gnome_about_new (class, name, version, copyright, comments, authors, documenters
 			a = g_new0 (const gchar*, av_len(av)+2);
 
 			for(i=0;i<=av_len(av);i++) {
-				a[i] = SvPV(*av_fetch(av, i, 0), PL_na);
+				a[i] = SvPV_nolen(*av_fetch(av, i, 0));
 			}
 			a[i] = NULL;
 		} else {
 			a = (const gchar**)malloc(sizeof(const gchar*) * 2);
-			a[0] = SvPV(authors, PL_na);
+			a[0] = SvPV_nolen(authors);
 			a[1] = NULL;
 		}
 	} else {
@@ -73,12 +70,12 @@ gnome_about_new (class, name, version, copyright, comments, authors, documenters
 			d = g_new (const gchar*, av_len(av)+2);
 
 			for(i=0;i<=av_len(av);i++) {
-				d[i] = SvPV(*av_fetch(av, i, 0), PL_na);
+				d[i] = SvPV_nolen(*av_fetch(av, i, 0));
 			}
 			d[i] = NULL;
 		} else {
 			d = (const gchar**)malloc(sizeof(const gchar*) * 2);
-			d[0] = SvPV(documenters, PL_na);
+			d[0] = SvPV_nolen(documenters);
 			d[1] = NULL;
 		}
 	}

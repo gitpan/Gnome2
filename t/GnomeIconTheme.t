@@ -7,7 +7,7 @@ use Test::More tests => TESTS;
 
 Gnome2::VFS -> init();
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeIconTheme.t,v 1.18 2005/10/08 13:57:00 kaffeetisch Exp $
+# $Id$
 
 ###############################################################################
 

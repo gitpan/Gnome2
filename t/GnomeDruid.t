@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 17;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeDruid.t,v 1.9 2004/06/14 17:36:59 kaffeetisch Exp $
+# $Id$
 
 ###############################################################################
 

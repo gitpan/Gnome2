@@ -1,5 +1,5 @@
 AUTHORS
-ChangeLog
+ChangeLog.pre-git
 Gnome2.pm
 LICENSE
 MANIFEST			This list of files
@@ -16,6 +16,7 @@ examples/session-management.pl
 gnome.typemap
 gnome2perl.h
 maps
+perl-Gnome2.doap
 perl-Gnome2.spec.in
 podifyenums.pl
 t/Gnome.t
@@ -91,3 +92,4 @@ xs/GnomeURL.xs
 xs/GnomeUtil.xs
 xs/GnomeWindow.xs
 xs/GnomeWindowIcon.xs
+META.json                                Module JSON meta-data (added by MakeMaker)

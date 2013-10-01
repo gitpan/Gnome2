@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 1;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeClient,v 1.6 2004/01/27 18:47:29 kaffeetisch Exp $
+# $Id$
 
 ###############################################################################
 

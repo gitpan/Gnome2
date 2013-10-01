@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * Copyright (C) 2003, 2013 by the gtk2-perl team (see the file AUTHORS)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -8,14 +8,11 @@
  * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeConfig.xs,v 1.9 2004/05/21 14:19:02 kaffeetisch Exp $
+ * See the LICENSE file in the top level of this distribution
+ * for the complete license terms.
+ *
  */
 
 #include "gnome2perl.h"
@@ -94,7 +91,7 @@ get_string_with_default (class, path)
 	EXTEND (sp, 1);
 	PUSHs (sv_2mortal (newSVuv (def)));
 	if (retval != NULL)
-		XPUSHs (sv_2mortal (newSVpv (retval, PL_na)));
+		XPUSHs (sv_2mortal (newSVpv (retval, 0)));
 
 	g_free (retval);
 
@@ -226,7 +223,7 @@ get_vector (class, path)
 
 	if (argv != NULL) {
 		for (i = 0; i < argc; i++)
-			av_push (array, newSVpv (argv[i], PL_na));
+			av_push (array, newSVpv (argv[i], 0));
 
 		g_free (argv);
 	}
@@ -258,7 +255,7 @@ get_vector_with_default (class, path)
 
 	if (argv != NULL) {
 		for (i = 0; i < argc; i++)
-			av_push (array, newSVpv (argv[i], PL_na));
+			av_push (array, newSVpv (argv[i], 0));
 
 		g_free (argv);
 	}
@@ -334,7 +331,7 @@ set_vector (class, path, value)
 	SV **string;
     CODE:
 	if (! (SvOK (value) && SvROK (value) && SvTYPE (SvRV (value)) == SVt_PVAV))
-		croak ("the vector paramter must be a reference to an array");
+		croak ("the vector parameter must be a reference to an array");
 
 	array = (AV *) SvRV (value);
 	length = av_len (array);
@@ -483,8 +480,8 @@ gnome_config_iterator_next (handle)
 		EXTEND (sp, 3);
 
 		PUSHs (sv_2mortal (newSVGnomeConfigIterator (new)));
-		PUSHs (sv_2mortal (newSVpv (key, PL_na)));
-		PUSHs (sv_2mortal (newSVpv (value, PL_na)));
+		PUSHs (sv_2mortal (newSVpv (key, 0)));
+		PUSHs (sv_2mortal (newSVpv (value, 0)));
 
 		g_free (key);
 		g_free (value);

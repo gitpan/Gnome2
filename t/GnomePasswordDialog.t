@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 7;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePasswordDialog.t,v 1.9 2004/09/13 22:15:47 kaffeetisch Exp $
+# $Id$
 
 ###############################################################################
 

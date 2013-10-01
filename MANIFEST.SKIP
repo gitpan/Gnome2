@@ -4,10 +4,11 @@ blib
 \.bs$
 build
 \.c$
-CVS
-\.cvsignore$
+\.git
+\.gitigore$
 Makefile$
 Makefile\.old$
+MYMETA.*
 \.o$
 \.spec$
 \.sw.$

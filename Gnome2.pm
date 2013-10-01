@@ -1,4 +1,4 @@
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Gnome2.pm,v 1.44 2007/08/13 18:14:20 kaffeetisch Exp $
+# $Id$
 
 package Gnome2;
 
@@ -14,7 +14,7 @@ require DynaLoader;
 
 our @ISA = qw(DynaLoader);
 
-our $VERSION = '1.042';
+our $VERSION = '1.043';
 
 sub import {
   my $self = shift();
@@ -51,11 +51,11 @@ applications.
 Since this module tries to stick very closely to the C API, the documentation
 found at
 
-  http://developer.gnome.org/doc/API/2.0/libgnome/index.html
+  http://developer.gnome.org/libgnome
 
 and
 
-  http://developer.gnome.org/doc/API/2.0/libgnomeui/index.html
+  http://developer.gnome.org/libgnomeui
 
 is the canonical reference.
 
@@ -168,7 +168,7 @@ corrected several of muppet's mistakes.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2003-2006 by the gtk2-perl team (see the file AUTHORS)
+Copyright (C) 2003-2006, 2013 by the gtk2-perl team (see the file AUTHORS)
 
 This library is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free
@@ -177,11 +177,9 @@ later version.
 
 This library is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
-details.
+PARTICULAR PURPOSE.
 
-You should have received a copy of the GNU Lesser General Public License along
-with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+See the LICENSE file in the top level of this distribution for the complete
+license terms.
 
 =cut

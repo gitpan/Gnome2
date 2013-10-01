@@ -2,7 +2,7 @@
 use strict;
 use Gnome2;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/examples/session-management.pl,v 1.1 2003/12/10 21:13:17 kaffeetisch Exp $
+# $Id$
 
 my $application = Gnome2::Program -> init("Test", "0.1", "libgnomeui");
 my $client = Gnome2::Client -> master();

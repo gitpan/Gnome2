@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * Copyright (C) 2003, 2013 by the gtk2-perl team (see the file AUTHORS)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -8,14 +8,11 @@
  * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeModuleInfo.xs,v 1.6 2004/03/02 03:31:29 kaffeetisch Exp $
+ * See the LICENSE file in the top level of this distribution
+ * for the complete license terms.
+ *
  */
 
 #include "gnome2perl.h"
@@ -48,10 +45,10 @@ name (module_info)
 	Gnome2::ModuleInfo::opt_prefix = 3
     CODE:
 	switch (ix) {
-		case 0: RETVAL = newSVpv (module_info->name, PL_na); break;
-		case 1: RETVAL = newSVpv (module_info->version, PL_na); break;
-		case 2: RETVAL = newSVpv (module_info->description, PL_na); break;
-		case 3: RETVAL = newSVpv (module_info->opt_prefix, PL_na); break;
+		case 0: RETVAL = newSVpv (module_info->name, 0); break;
+		case 1: RETVAL = newSVpv (module_info->version, 0); break;
+		case 2: RETVAL = newSVpv (module_info->description, 0); break;
+		case 3: RETVAL = newSVpv (module_info->opt_prefix, 0); break;
 		default: RETVAL = &PL_sv_undef;
 	}
     OUTPUT:

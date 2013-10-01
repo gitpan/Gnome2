@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 6;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomePopupMenu.t,v 1.9 2004/03/02 02:37:33 kaffeetisch Exp $
+# $Id$
 
 ###############################################################################
 

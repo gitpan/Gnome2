@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 8;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeAppBar.t,v 1.5 2003/12/15 00:17:24 kaffeetisch Exp $
+# $Id$
 
 ###############################################################################
 

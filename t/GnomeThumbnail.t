@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 4;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeThumbnail.t,v 1.13 2005/05/29 14:54:09 kaffeetisch Exp $
+# $Id$
 
 ###############################################################################
 

@@ -2,7 +2,7 @@
 use strict;
 use Gnome2;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeScore,v 1.1 2003/09/25 15:05:49 kaffeetisch Exp $
+# $Id$
 
 Gnome2::Score -> init("Test");
 

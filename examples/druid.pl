@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/examples/druid.pl,v 1.1 2003/11/03 21:41:54 kaffeetisch Exp $
+# $Id$
 #
 
 use Gnome2;

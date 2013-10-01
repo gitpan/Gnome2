@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * Copyright (C) 2003, 2013 by the gtk2-perl team (see the file AUTHORS)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -8,14 +8,11 @@
  * 
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/xs/GnomeIconTheme.xs,v 1.18 2004/07/18 17:50:23 kaffeetisch Exp $
+ * See the LICENSE file in the top level of this distribution
+ * for the complete license terms.
+ *
  */
 
 #include "gnome2perl.h"
@@ -51,7 +48,7 @@ newSVGnomeIconData (const GnomeIconData * data)
 		hv_store (hv, "y1", 2, newSViv (data->y1), 0);
 		hv_store (hv, "attach_points", 13, newRV_noinc ((SV*) av), 0);
 		if (data->display_name)
-			hv_store (hv, "display_name", 12, newSVpv (data->display_name, PL_na), 0);
+			hv_store (hv, "display_name", 12, newSVpv (data->display_name, 0), 0);
 	}
 
 	return newRV_noinc ((SV *) hv);
@@ -92,7 +89,7 @@ SvGnomeIconData (SV * sv)
 	if (value) data->y1 = SvIV (*value);
 
 	value = hv_fetch (hv, "display_name", 12, FALSE);
-	if (value) data->display_name = SvPV (*value, PL_na);
+	if (value) data->display_name = SvPV_nolen (*value);
 
 	/* ----------------------------------------------------------------- */
 
@@ -185,7 +182,7 @@ gnome_icon_theme_get_search_path (theme)
 	if (path) {
 		EXTEND (sp, n_elements);
 		for (i = 0; i < n_elements; i++)
-			PUSHs (sv_2mortal (newSVpv (path[i], PL_na)));
+			PUSHs (sv_2mortal (newSVpv (path[i], 0)));
 	}
 	else
 		XSRETURN_EMPTY;
@@ -242,7 +239,7 @@ gnome_icon_theme_lookup_icon (theme, icon_name, size)
 		XSRETURN_EMPTY;
 
 	EXTEND (sp, 3);
-	PUSHs (sv_2mortal (newSVpv (filename, PL_na)));
+	PUSHs (sv_2mortal (newSVpv (filename, 0)));
 	PUSHs (sv_2mortal (newSVGnomeIconData (icon_data)));
 	PUSHs (sv_2mortal (newSViv (base_size)));
 
@@ -269,7 +266,7 @@ gnome_icon_theme_list_icons (theme, context=NULL)
     PPCODE:
 	results = gnome_icon_theme_list_icons (theme, context);
 	for (i = results; i != NULL; i = i->next) {
-		XPUSHs (sv_2mortal (newSVpv (i->data, PL_na)));
+		XPUSHs (sv_2mortal (newSVpv (i->data, 0)));
 		g_free (i->data);
 	}
 	g_list_free (results);

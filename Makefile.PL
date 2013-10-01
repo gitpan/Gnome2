@@ -1,5 +1,5 @@
 #
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/Makefile.PL,v 1.39 2005/06/22 23:16:57 kaffeetisch Exp $
+# $Id$
 #
 
 use 5.008;
@@ -29,6 +29,48 @@ our %PREREQ_PM = (
 	'ExtUtils::Depends'   => $build_reqs{'perl-ExtUtils-Depends'},
 	'ExtUtils::PkgConfig' => $build_reqs{'perl-ExtUtils-PkgConfig'},
 );
+
+my %meta_merge = (
+        q(meta-spec)          => {
+            version => '2',
+            url     => 'http://search.cpan.org/perldoc?CPAN::Meta::Spec',
+        },
+        author              =>
+            ['Gnome2 Perl Team <gtk-perl-list at gnome dot org>'],
+        release_status      => 'stable',
+        # valid values: https://metacpan.org/module/CPAN::Meta::Spec#license
+        license             => 'lgpl_2_1',
+        resources => {
+            license     => 'http://www.gnu.org/licenses/lgpl-2.1.html',
+            homepage    => 'http://gtk2-perl.sourceforge.net',
+            x_MailingList =>
+                'https://mail.gnome.org/mailman/listinfo/gtk-perl-list',
+            bugtracker  => {
+                    web     =>
+                    'http://rt.cpan.org/Public/Dist/Display.html?Name=Gnome2',
+                    mailto  => 'bug-Gnome2 [at] rt.cpan.org',
+            },
+            repository  => {
+                    url     => 'git://git.gnome.org/perl-Gnome2',
+                    type    => 'git',
+                    web     => 'http://git.gnome.org/browse/perl-Gnome2',
+            },
+        },
+        prereqs => {
+          configure => {
+            requires => {%PREREQ_PM}, # no direct ref for 5.14 compatibility
+          },
+          test => {
+            recommends => {
+              'Test::Number::Delta' => 1.0,
+            },
+          },
+        },
+        no_index            => {
+            file => [qw(inc/MakeHelper.pm)],
+        },
+);
+
 
 # Writing a fake Makefile ensures that CPAN will pick up the correct
 # dependencies and install them.
@@ -110,12 +152,13 @@ $gnome2->install (qw(gnome2perl.h
 $gnome2->save_config ('build/IFiles.pm');
 
 WriteMakefile(
-    NAME            => 'Gnome2',
-    VERSION_FROM    => 'Gnome2.pm', # finds $VERSION
-    ABSTRACT_FROM   => 'Gnome2.pm', # retrieve abstract from module
-    XSPROTOARG      => '-noprototypes',
-    MAN3PODS        => \%pod_files,
-    PREREQ_PM    => \%PREREQ_PM,
+    NAME          => 'Gnome2',
+    VERSION_FROM  => 'Gnome2.pm', # finds $VERSION
+    ABSTRACT_FROM => 'Gnome2.pm', # retrieve abstract from module
+    XSPROTOARG    => '-noprototypes',
+    MAN3PODS      => \%pod_files,
+    PREREQ_PM     => \%PREREQ_PM,
+    META_MERGE    => \%meta_merge,
     $gnome2->get_makefile_vars,
 );
 
@@ -128,9 +171,9 @@ sub MY::postamble {
 	       )
 	     . Glib::MakeHelper->postamble_rpms (
 			'GNOME' => $build_reqs{'Gnome'},
-			'PERL_EXTUTILS_DEPENDS' => 
+			'PERL_EXTUTILS_DEPENDS' =>
 				$build_reqs{'perl-ExtUtils-Depends'},
-			'PERL_EXTUTILS_PKGCONFIG' => 
+			'PERL_EXTUTILS_PKGCONFIG' =>
 				$build_reqs{'perl-ExtUtils-PkgConfig'},
 			'PERL_GLIB' => $build_reqs{'perl-Glib'},
 			'PERL_GTK' => $build_reqs{'perl-Gtk2'},
@@ -139,6 +182,7 @@ sub MY::postamble {
 		)
           . "
 \$(INST_LIB)/\$(FULLEXT)/enums.pod : \$(BLIB_DONE) maps podifyenums.pl
+	mkdir blib/lib/\$(NAME)
 	\$(PERLRUNINST) -M\$(NAME) podifyenums.pl \$(NAME) maps > \$@
 ";
 }

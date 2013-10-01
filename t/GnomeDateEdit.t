@@ -5,7 +5,7 @@ use Gnome2;
 use constant TESTS => 5;
 use Test::More tests => TESTS;
 
-# $Header: /cvsroot/gtk2-perl/gtk2-perl-xs/Gnome2/t/GnomeDateEdit.t,v 1.9 2005/10/08 13:57:00 kaffeetisch Exp $
+# $Id$
 
 ###############################################################################
 

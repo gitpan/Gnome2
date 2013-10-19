@@ -92,4 +92,3 @@ xs/GnomeURL.xs
 xs/GnomeUtil.xs
 xs/GnomeWindow.xs
 xs/GnomeWindowIcon.xs
-META.json                                Module JSON meta-data (added by MakeMaker)

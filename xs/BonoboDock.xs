@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003 by the gtk2-perl team (see the file AUTHORS)
+ * Copyright (C) 2003, 2013 by the gtk2-perl team (see the file AUTHORS)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -65,7 +65,7 @@ bonobo_dock_get_client_area (dock)
 =for apidoc
 
 Returns a BonoboDockItem, a BonoboDockPlacement and three unsigned integers
-correspoding to num_band, band_position and offset.
+corresponding to num_band, band_position and offset.
 
 =cut
 ##  BonoboDockItem *bonobo_dock_get_item_by_name (BonoboDock *dock, const gchar *name, BonoboDockPlacement *placement_return, guint *num_band_return, guint *band_position_return, guint *offset_return) 
